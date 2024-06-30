@@ -10,7 +10,7 @@ import { URL } from "url";
  * Progress of the initialization of the engine
  */
 
-const useChat = () => {
+const UseChat = () => {
     const selectedModel = "gemma-2b-it-q4f32_1-MLC";
     let engine: webllm.WebWorkerMLCEngine | null = null!;
     const [progress, setProgress] = useState("0.00%");
@@ -135,6 +135,6 @@ const useChat = () => {
 
 
 export {
-    useChat,
+    UseChat,
   
 }

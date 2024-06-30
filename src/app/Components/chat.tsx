@@ -2,11 +2,11 @@
 import React, { use, useEffect, useState } from 'react'
 import Messaje from './Messaje';
 import Script from 'next/script';
-import { useChat } from './hooks/useChat';
+import { UseChat } from './hooks/useChat';
 
 export default function Chat() {
 
-    const chat = useChat();
+    const chat = UseChat();
     const [userMessageInput, setMessageInput] = useState<string>('');
     const [isCompatible, setIsCompatible] = useState<boolean>(true);
 
