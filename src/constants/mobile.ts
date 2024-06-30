@@ -13,7 +13,7 @@ const typesMobile = {
 }
 
 
-function isMobile() {
+const isMobile = () => {
     if(navigator !=undefined){
 
         return mobile.MOBILE() ? typesMobile.MOBILE : typesMobile.DESKTOP;
