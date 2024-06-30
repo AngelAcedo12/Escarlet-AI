@@ -5,7 +5,7 @@ import Script from 'next/script';
 import React, { use, useEffect, useRef, useState } from 'react'
 import Chat from '../Components/chat';
 
-export default function page() {
+export default function Page() {
 
 
   useEffect(() => {
