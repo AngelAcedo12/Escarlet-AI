@@ -26,6 +26,10 @@ const useChat = () => {
     const initEngineWorkerRef = useRef<Worker>();
     let countEnter = 0
 
+
+    useEffect(() => {
+    }, [])
+
     const userRequest = async (text: string) => {
 
         if (engine) {
