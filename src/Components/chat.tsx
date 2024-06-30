@@ -1,19 +1,65 @@
 
 "use client"
 import { useChat } from '@/hooks/useChat';
-import React, { useEffect } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import Messaje from './Messaje';
 
 export default function Chat() {
 
     const chat = useChat();
+    const [userMessageInput, setMessageInput] = useState<string>('');
+    const [isCompatible, setIsCompatible] = useState<boolean>(true);   
+
+    const detectedCompatibility =  () => {
+        const response = chat.isCompatible();
+        console.log(response)
+        return response;
+
+    };
+
 
 
     useEffect(() => {
-        chat.initChat();
+        if(detectedCompatibility()){
+            setIsCompatible(true);
+            chat.initChat();
+        }else{
+            setIsCompatible(false);
+
+        }
     }, [])
 
-    if (chat.progressInit < 99) {
+
+    const handleUserMessage = (e: React.FormEvent<HTMLInputElement>) => {
+
+        setMessageInput(e.currentTarget.value);
+        console.log(userMessageInput)
+    }
+    const handleUserMessageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        console.log("Submit", userMessageInput)
+        e.preventDefault();
+        chat.userRequest(userMessageInput);
+    }
+
+    if(!isCompatible){
+        return (
+
+            <article  className='w-full flex justify-between flex-col  p-2 '>
+            
+            <div className='h-full w-full '>
+                <ul className=' flex flex-col'>
+                    <p className='text-neutral-400 text-sm '>
+                    Su navegador no es compatible con el modelo de lenguaje. 
+                    </p>
+                </ul>
+            </div>
+            </article>
+
+        )
+    }
+
+
+    if (chat.progressInit < 1) {
         return (
             <article  className='w-full flex justify-between flex-col  p-2 '>
             <div style={
@@ -24,7 +70,9 @@ export default function Chat() {
             <div className='h-full w-full '>
                 <ul className=' flex flex-col'>
                     <p className='text-neutral-400 text-sm '>
-                    Este proceso puede llevar un tiempo por favor espere. Progreso: {chat.progress}
+                    Este proceso puede llevar un tiempo por favor espere. 
+                    <br/>
+                     {chat.statusText}
                     </p>
                 </ul>
                 
@@ -40,19 +88,26 @@ export default function Chat() {
     
         return (
 
-   
+        <article  className='w-full flex justify-between flex-col  max-h-max   lg:mx-32 overflow-y-hidden '>
 
-        <article  className='w-full flex justify-between flex-col  p-2 bg-purple-50'>
+            
+                <ul className='h-full flex flex-col  overflow-y-auto '>
+                  {
+                    chat.messages.map((message, index) => {
+                        console.log(message.user)
+                        return <Messaje key={index} text={message.text} user={message.user} />
+                    })
+                  }
+                  {
+                    chat.generateMessage==true ? <Messaje text={chat.reply} user={"bot"}  /> : null
+                  }
+                    
 
-            <div className='h-full w-full '>
-                <ul className=' flex flex-col'>
-                    <Messaje text='Hola' user='bot' date='12/12/12'/>  
-                    <Messaje text='Este es un mensaje muyy asdasdasdasd asd asdas dasd as dasd asd asdasd a asdads as da sdasdasdas   ad asd ad' user='user' date='12/12/12'/> 
                 </ul>
                 
-            </div>
-            <form className='flex-row flex gap-3 text-black px-4'>
-                <input className='w-full bg-transparent border border-slate-500 p-2 rounded-lg ' type='text' placeholder='¿Como estamos?'/>
+    
+            <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-black px-4 '>
+                <input onInput={(e) =>handleUserMessage(e)} className='w-full bg-transparent border border-slate-500 p-2 rounded-lg ' type='text' placeholder='¿Como estamos?'/>
                 <button>Enviar</button>
             </form>
         </article>

@@ -15,19 +15,15 @@ export default function page() {
 
 
   return (
-    <main className='flex  max-h-[99dvh] flex-col mt-16  bg-white'>
+    <main className='flex  max-h-[99dvh] flex-col mt-16 h-[90dvh] bg-white  overflow-y-hidden '>
     
-        <section className='flex '>
-            <article className='bg-red-400 w-96 h-[90.9dvh] p-2'>asdasd</article>
-
-            
+        <section className='flex h-full  overflow-y-hidden'>
+           
             <Chat/>
           
         </section>
 
        
-       
-        
     </main>  
   )
 }
