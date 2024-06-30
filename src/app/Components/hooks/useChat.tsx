@@ -1,18 +1,18 @@
-"use client"
+
 import { Message } from "@/interfaces/message";
 import * as webllm from "@mlc-ai/web-llm";
 import { CreateMLCEngine, InitProgressReport } from "@mlc-ai/web-llm";
 import { count } from "console";
 import { useEffect, useRef, useState } from "react";
 import { URL } from "url";
-const selectedModel = "gemma-2b-it-q4f32_1-MLC";
-let engine: webllm.WebWorkerMLCEngine | null = null!;
+
 /**
  * Progress of the initialization of the engine
  */
 
 const useChat = () => {
-
+    const selectedModel = "gemma-2b-it-q4f32_1-MLC";
+    let engine: webllm.WebWorkerMLCEngine | null = null!;
     const [progress, setProgress] = useState("0.00%");
     const [statusText, setStatusText] = useState("");
     const [progressInit, setProgressInit] = useState(0);
@@ -120,7 +120,9 @@ const useChat = () => {
         addMessage,
         isCompatible,
         initialization,
-        initEngineWorkerRef
+        initEngineWorkerRef,
+        selectedModel,
+        engine
     }
 }
 
@@ -130,7 +132,5 @@ const useChat = () => {
 
 export {
     useChat,
-    selectedModel,
-    engine,
-
+  
 }
