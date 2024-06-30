@@ -12,7 +12,7 @@ import { URL } from "url";
  */
 
 function useChat  ()  {
-    let selectedModel = determineModel();
+    let selectedModel = "";
     const [engine, setEngine] = useState<webllm.WebWorkerMLCEngine>();
     const [progress, setProgress] = useState("0.00%");
     const [statusText, setStatusText] = useState("");
@@ -27,7 +27,10 @@ function useChat  ()  {
 
 
     useEffect(() => {
-       
+       if (typeof window !== 'undefined'){
+
+           selectedModel = determineModel();
+       }
     }, [])
 
 
@@ -107,6 +110,7 @@ function useChat  ()  {
 
 
         if (window.Worker) {
+
             if (initEngineWorkerRef.current) {
               
                 initEngineWorkerRef.current.postMessage({ type: 'init' })
@@ -135,7 +139,8 @@ function useChat  ()  {
 
     }
 
-    function determineModel () {
+    const determineModel =  () =>{
+        
         return  isMobile() == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Llama-3-70B-Instruct-q3f16_1-MLC"
     }
 

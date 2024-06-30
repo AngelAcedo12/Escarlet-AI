@@ -30,13 +30,15 @@ export default function Chat() {
     };
     
     useEffect(() => {
-        if(navigator != undefined){
-        setIsCompatible(detectedCompatibility());
-        if(isCompatible){
-            initWorket()
-            chat.initChat()
-        }
-        }
+      if(typeof window !== 'undefined'){
+
+          setIsCompatible(detectedCompatibility());
+          if(isCompatible){
+              initWorket()
+              chat.initChat()
+          }
+      }
+        
     }, [])
 
 
