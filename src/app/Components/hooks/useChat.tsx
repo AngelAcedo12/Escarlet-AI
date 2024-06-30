@@ -117,7 +117,7 @@ function useChat  ()  {
     }
 
     function determineModel () {
-        return  isMobile() == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Llama-3-8B-Instruct-q4f16_1-MLC-1k"
+        return  isMobile() == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Llama-3-70B-Instruct-q3f16_1-MLC"
      
     }
 
