@@ -47,7 +47,7 @@ export default function Chat() {
         e.preventDefault();
  
         if(chat.generateMessage==false){
-            
+            chat.addMessage({ text: userMessageInput, user: "user", name: "User" });
             chat.userRequest(userMessageInput);
             setMessageInput('');
 

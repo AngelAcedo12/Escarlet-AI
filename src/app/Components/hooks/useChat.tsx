@@ -4,7 +4,7 @@ import { Message } from "@/interfaces/message";
 import * as webllm from "@mlc-ai/web-llm";
 import { CreateMLCEngine, InitProgressReport } from "@mlc-ai/web-llm";
 import { count } from "console";
-import { useEffect, useRef, useState } from "react";
+import { act, useEffect, useRef, useState } from "react";
 import { URL } from "url";
 
 /**
@@ -18,9 +18,7 @@ function useChat  ()  {
     const [statusText, setStatusText] = useState("");
     const [progressInit, setProgressInit] = useState(0);
     const [reply, setReply] = useState("");
-    const [messages, setMessages] = useState<Message[]>([
-        { text: "Hola, me llamo Escarlet. ¿En que puedo ayudarte?", user: "bot", name: "Escarlet" }
-    ]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [generateMessage, setGenerateMessage] = useState(false);
     const [initialization, setInitialization] = useState(false);
     const [inGeneratedMessage, setInGeneratedMessage] = useState(false);
@@ -35,21 +33,42 @@ function useChat  ()  {
 
 
     const userRequest = async (text: string) => {
-    
+        
+       
         if (engine) {
+            console.log(messages)
+            let actualMessage = messages.map((message, index) : webllm.ChatCompletionMessageParam  |  webllm.ChatCompletionSystemMessageParam  => {
+                if(index == 0 ){
+                    return {
+                        role: "system",
+                        content: "Te llamas Escarlet y eres un asistente virtual el cual habla en Español",
+                        
+                    }
+                }
+                if(message.user == "bot"){
+                    return {
+                        role: "assistant",
+                        content: message.text,
+                    }
+                }else{
+                    return {
+                        role: "user",
+                        content: message.text,
+                    }
+                }
+               
+            })  
+            actualMessage.push({
+                role : "user",
+                content : text,
+                name : "User"
+            })
        
             setGenerateMessage(true);
             let request: webllm.ChatCompletionRequestStreaming = {
-                messages: [
-                    {
-                        role: "user",
-                        content: text
-
-                    }
-                ],
+                messages: actualMessage,
                 stream: true,
             };
-            setMessages((oldMessages) => [...oldMessages, { text: text, user: "user", name: "User" }]);
             
             let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
             let botMessage = "";
@@ -118,7 +137,6 @@ function useChat  ()  {
 
     function determineModel () {
         return  isMobile() == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Llama-3-70B-Instruct-q3f16_1-MLC"
-     
     }
 
     return {
