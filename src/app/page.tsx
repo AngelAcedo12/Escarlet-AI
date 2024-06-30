@@ -1,6 +1,7 @@
-import ButtonLink from "@/Components/buttonLink";
+
 import Image from "next/image";
 import Link from "next/link";
+import ButtonLink from "./Components/buttonLink";
 
 export default function Home() {
   return (

@@ -41,13 +41,16 @@ export default function Chat() {
 
 
     const handleUserMessage = (e: React.FormEvent<HTMLInputElement>) => {
-
-        setMessageInput(e.currentTarget.value);
-        console.log(userMessageInput)
+        setMessageInput(e.currentTarget.value);       
     }
     const handleUserMessageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        chat.userRequest(userMessageInput);
+ 
+        if(chat.generateMessage==false){
+
+            chat.userRequest(userMessageInput);
+            setMessageInput('');
+        }
     }
     // Si el sistema no es compatible rederizara este componente
     if (!isCompatible) {
@@ -87,10 +90,7 @@ export default function Chat() {
 
                 </div>
 
-                <form className='flex-row flex gap-3 text-black ' >
-                    <input disabled className='w-full bg-transparent border border-slate-500 p-2 rounded-lg ' type='text' placeholder='¿Como estamos?' />
-                    <button disabled>Enviar</button>
-                </form>
+               
 
             </>
 
@@ -102,24 +102,25 @@ export default function Chat() {
         return (
 
             <>
-                <ul className='h-full flex flex-col  overflow-y-auto '>
+                <ul className='h-full flex flex-col  overflow-y-auto  pb-4'>
                     {
                         chat.messages.map((message, index) => {
                             console.log(message.user)
-                            return <Messaje key={index} text={message.text} user={message.user} />
+                            return <Messaje key={index} text={message.text} user={message.user}  />
                         })
                     }
                     {
-                        chat.generateMessage == true ? <Messaje text={chat.reply} user={"bot"} /> : null
+                        chat.generateMessage == true ? <Messaje  text={chat.reply} user={"bot"} reply={true}  /> : null
                     }
 
 
                 </ul>
 
 
-                <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-black  '>
-                    <input onInput={(e) => handleUserMessage(e)} className='w-full bg-transparent border border-slate-500 p-2 rounded-lg ' type='text' placeholder='¿Como estamos?' />
-                    <button>Enviar</button>
+                <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-black  animate-fade '>
+                    <input  value={userMessageInput}  disabled={chat.generateMessage} onInput={(e) => handleUserMessage(e)} className='w-full bg-transparent border border-slate-500 p-2 rounded-lg  disabled:animate-pulse' 
+                    type='text' placeholder='¿Como estamos?' />
+                    <button  disabled={chat.generateMessage}>Enviar</button>
                 </form>
             </>
 

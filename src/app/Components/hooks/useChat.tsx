@@ -5,7 +5,7 @@ import { CreateMLCEngine, InitProgressReport } from "@mlc-ai/web-llm";
 import { count } from "console";
 import { useEffect, useRef, useState } from "react";
 import { URL } from "url";
-const selectedModel = "Llama-3-8B-Instruct-q4f16_1-MLC-1k";
+const selectedModel = "gemma-2b-it-q4f32_1-MLC";
 let engine: webllm.WebWorkerMLCEngine | null = null!;
 /**
  * Progress of the initialization of the engine
@@ -22,13 +22,15 @@ const useChat = () => {
     ]);
     const [generateMessage, setGenerateMessage] = useState(false);
     const [initialization, setInitialization] = useState(false);
+    const [inGeneratedMessage, setInGeneratedMessage] = useState(false);
     const initEngineWorkerRef = useRef<Worker>();
     let countEnter = 0
 
     const userRequest = async (text: string) => {
 
         if (engine) {
-
+       
+            setGenerateMessage(true);
             let request: webllm.ChatCompletionRequestStreaming = {
                 messages: [
                     {
@@ -39,8 +41,8 @@ const useChat = () => {
                 ],
                 stream: true,
             };
-            setGenerateMessage(true);
             setMessages((oldMessages) => [...oldMessages, { text: text, user: "user", name: "User" }]);
+        
             let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
             let botMessage = "";
             for await (const chunk of response) {
@@ -84,7 +86,8 @@ const useChat = () => {
                 engine = await webllm.CreateWebWorkerMLCEngine(
                     initEngineWorkerRef.current,
                     selectedModel,
-                    { initProgressCallback: initProgressCallback }, // engineConfig
+                    { initProgressCallback: initProgressCallback }, 
+                    
                 )
             }
         }
