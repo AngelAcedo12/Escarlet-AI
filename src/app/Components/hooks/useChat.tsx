@@ -117,7 +117,7 @@ function useChat  ()  {
     }
 
     function determineModel () {
-        return  isMobile() == "MOBILE" ? "gemma-2b-it-q4f32_1-MLC" : "Hermes-2-Pro-Mistral-7B-q4f16_1-MLC"
+        return  isMobile() == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Llama-3-8B-Instruct-q4f16_1-MLC-1k"
      
     }
 
