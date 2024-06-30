@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.10.2",
     "@mlc-ai/web-llm": "^0.2.46",
     "next": "14.2.4",
     "react": "^18",
