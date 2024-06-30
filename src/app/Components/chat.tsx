@@ -13,10 +13,10 @@ export default function Chat() {
 
 
     function initWorket(){
+        
         let worker = new Worker(
             new URL("../worker.ts", import.meta.url),
             { type: 'module' },
-    
         );
         chat.initEngineWorkerRef.current = worker;
        
@@ -29,13 +29,13 @@ export default function Chat() {
 
     };
     
-
-
     useEffect(() => {
+        if(navigator != undefined){
         setIsCompatible(detectedCompatibility());
         if(isCompatible){
             initWorket()
             chat.initChat()
+        }
         }
     }, [])
 
@@ -47,9 +47,10 @@ export default function Chat() {
         e.preventDefault();
  
         if(chat.generateMessage==false){
-
+            
             chat.userRequest(userMessageInput);
             setMessageInput('');
+
         }
     }
     // Si el sistema no es compatible rederizara este componente
@@ -105,7 +106,6 @@ export default function Chat() {
                 <ul className='h-full flex flex-col  overflow-y-auto  pb-4'>
                     {
                         chat.messages.map((message, index) => {
-                            console.log(message.user)
                             return <Messaje key={index} text={message.text} user={message.user}  />
                         })
                     }
@@ -113,9 +113,7 @@ export default function Chat() {
                         chat.generateMessage == true ? <Messaje  text={chat.reply} user={"bot"} reply={true}  /> : null
                     }
 
-
                 </ul>
-
 
                 <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-black  animate-fade '>
                     <input  value={userMessageInput}  disabled={chat.generateMessage} onInput={(e) => handleUserMessage(e)} className='w-full bg-transparent border border-slate-500 p-2 rounded-lg  disabled:animate-pulse' 

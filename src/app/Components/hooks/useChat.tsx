@@ -1,4 +1,5 @@
 
+import { isMobile } from "@/constants/mobile";
 import { Message } from "@/interfaces/message";
 import * as webllm from "@mlc-ai/web-llm";
 import { CreateMLCEngine, InitProgressReport } from "@mlc-ai/web-llm";
@@ -11,8 +12,8 @@ import { URL } from "url";
  */
 
 function useChat  ()  {
-    const selectedModel = "gemma-2b-it-q4f32_1-MLC";
-    let engine: webllm.WebWorkerMLCEngine | null = null!;
+    let selectedModel = determineModel();
+    const [engine, setEngine] = useState<webllm.WebWorkerMLCEngine>();
     const [progress, setProgress] = useState("0.00%");
     const [statusText, setStatusText] = useState("");
     const [progressInit, setProgressInit] = useState(0);
@@ -28,10 +29,13 @@ function useChat  ()  {
 
 
     useEffect(() => {
+       
     }, [])
 
-    const userRequest = async (text: string) => {
 
+
+    const userRequest = async (text: string) => {
+    
         if (engine) {
        
             setGenerateMessage(true);
@@ -46,7 +50,7 @@ function useChat  ()  {
                 stream: true,
             };
             setMessages((oldMessages) => [...oldMessages, { text: text, user: "user", name: "User" }]);
-        
+            
             let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
             let botMessage = "";
             for await (const chunk of response) {
@@ -83,16 +87,17 @@ function useChat  ()  {
     async function initChat() {
 
 
-        if (window.Worker && countEnter == 0) {
+        if (window.Worker) {
             if (initEngineWorkerRef.current) {
-                countEnter++;
+              
                 initEngineWorkerRef.current.postMessage({ type: 'init' })
-                engine = await webllm.CreateWebWorkerMLCEngine(
+                let engine = await webllm.CreateWebWorkerMLCEngine(
                     initEngineWorkerRef.current,
                     selectedModel,
                     { initProgressCallback: initProgressCallback }, 
                     
                 )
+                setEngine(engine);
             }
         }
     }
@@ -109,6 +114,11 @@ function useChat  ()  {
             return false;
         }
 
+    }
+
+    function determineModel () {
+        return  isMobile() == "MOBILE" ? "gemma-2b-it-q4f32_1-MLC" : "Hermes-2-Pro-Mistral-7B-q4f16_1-MLC"
+     
     }
 
     return {

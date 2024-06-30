@@ -21,11 +21,13 @@ export default function Messaje({ text, user, reply }: MessajeProps  ) {
     return (
       <li className={ user=="bot"  ? classBot : classUser }>
          
-          <text  className={'mt-2  p-2 rounded-lg animate-pulse' + messageClass }>
+          <div  className={'mt-2  p-2 rounded-lg animate-pulse' + messageClass }>
               <strong>{user=="bot" ? "Escarlet" : "User"}</strong>
               <br />
-              {text}
-          </text>
+              <p>
+                {text}
+              </p>
+          </div>
       </li>
     )
   
@@ -36,13 +38,13 @@ export default function Messaje({ text, user, reply }: MessajeProps  ) {
   return (
     <li className={ user=="bot"  ? classBot : classUser }>
        
-        <text  className={'mt-2  p-2 rounded-lg animate-fade' + messageClass }>
+        <div  className={'mt-2  p-2 rounded-lg animate-fade' + messageClass }>
             <strong>{user=="bot" ? "Escarlet" : "User"}</strong>
             <br />
             <p>
               {text}
             </p>
-        </text>
+        </div>
     </li>
   )
 }
