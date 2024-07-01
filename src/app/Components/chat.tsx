@@ -9,46 +9,68 @@ export default function Chat() {
     const chat = useChat();
     const [userMessageInput, setMessageInput] = useState<string>('');
     const [isCompatible, setIsCompatible] = useState<boolean>(true);
+    const [register, setRegister] = useState<boolean>(false);
+   async function initServiceWorker() {
+        if ('serviceWorker' in navigator) {
+       
+            const registration = await navigator.serviceWorker.register(new URL('../sw.ts', import.meta.url),
+                {
+                    type: 'module'
+                }
+            );
+            if (registration.installing) {
+                console.log("Service worker installing");
+              } else if (registration.waiting) {
+                console.log("Service worker installed");
+              } else if (registration.active) {
+                console.log("Service worker active");
+              }
+            registration.update();
 
-
-
-    function initWorket(){
+        }
         
+    }
+
+    function initWorket() {
+
         let worker = new Worker(
             new URL("../worker.ts", import.meta.url),
             { type: 'module' },
         );
         chat.initEngineWorkerRef.current = worker;
-       
+
     }
-    
+
 
     const detectedCompatibility = () => {
         const response = chat.isCompatible();
         return response;
 
     };
-    
-    useEffect(() => {
-      if(typeof window !== 'undefined'){
 
-          setIsCompatible(detectedCompatibility());
-          if(isCompatible){
-              initWorket()
-              chat.initChat()
-          }
-      }
-        
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+
+            setIsCompatible(detectedCompatibility());
+            if (isCompatible && !register) {
+                initServiceWorker()
+                initWorket()
+                chat.initChat()
+                chat.initServiceWorker()
+                setRegister(true);
+            }
+        }
+
     }, [])
 
 
     const handleUserMessage = (e: React.FormEvent<HTMLInputElement>) => {
-        setMessageInput(e.currentTarget.value);       
+        setMessageInput(e.currentTarget.value);
     }
     const handleUserMessageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
- 
-        if(chat.generateMessage==false){
+
+        if (chat.generateMessage == false) {
             chat.addMessage({ text: userMessageInput, user: "user", name: "User" });
             chat.userRequest(userMessageInput);
             setMessageInput('');
@@ -71,7 +93,7 @@ export default function Chat() {
         )
     }
     // Si el sistema esta en proceso de inicializacion renderizara este componente
-    if (chat.initialization!=true) {
+    if (chat.initialization != true) {
         return (
             <>
                 <div
@@ -93,7 +115,7 @@ export default function Chat() {
 
                 </div>
 
-               
+
 
             </>
 
@@ -108,19 +130,19 @@ export default function Chat() {
                 <ul className='h-full flex flex-col  overflow-y-auto  pb-4'>
                     {
                         chat.messages.map((message, index) => {
-                            return <Messaje key={index} text={message.text} user={message.user}  />
+                            return <Messaje key={index} text={message.text} user={message.user} />
                         })
                     }
                     {
-                        chat.generateMessage == true ? <Messaje  text={chat.reply} user={"bot"} reply={true}  /> : null
+                        chat.generateMessage == true ? <Messaje text={chat.reply} user={"bot"} reply={true} /> : null
                     }
 
                 </ul>
 
                 <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-black  animate-fade '>
-                    <input  value={userMessageInput}  disabled={chat.generateMessage} onInput={(e) => handleUserMessage(e)} className='w-full bg-transparent border border-slate-500 p-2 rounded-lg  disabled:animate-pulse' 
-                    type='text' placeholder='¿Como estamos?' />
-                    <button  disabled={chat.generateMessage}>Enviar</button>
+                    <input value={userMessageInput} disabled={chat.generateMessage} onInput={(e) => handleUserMessage(e)} className='w-full bg-transparent border border-slate-500 p-2 rounded-lg  disabled:animate-pulse'
+                        type='text' placeholder='¿Como estamos?' />
+                    <button disabled={chat.generateMessage}>Enviar</button>
                 </form>
             </>
 
