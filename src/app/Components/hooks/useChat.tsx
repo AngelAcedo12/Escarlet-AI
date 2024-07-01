@@ -28,7 +28,6 @@ function useChat  ()  {
 
     useEffect(() => {
        if (typeof window !== 'undefined'){
-
            selectedModel = determineModel();
        }
     }, [])
