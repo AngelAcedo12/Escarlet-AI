@@ -130,7 +130,7 @@ export default function Chat() {
         return (
 
             <>
-                <ul className='h-full flex flex-col  overflow-y-auto  pb-4'>
+                <ul className='h-full flex flex-col  overflow-y-auto px-2 mb:px-2 pb-4'>
                     {
                         chat.messages.map((message, index) => {
                             return <Messaje key={index} content={messageFormater(message.text)} user={message.user} />

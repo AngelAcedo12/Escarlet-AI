@@ -5,7 +5,7 @@ import React from 'react'
 export default function Navbar() {
   const classLink = "hover:border-b-black border-b-2 border-b-transparent   transition-all"
   return (
-    <div className='text-black  fixed w-full top-0'>
+    <div className='text-black  fixed w-full top-0 z-50'>
       <nav className='flex justify-between items-center p-4  backdrop-blur-sm bg-white' >
         <h1 className='text-2xl'>Project Escarlet</h1>
         <ul className='flex space-x-4'>

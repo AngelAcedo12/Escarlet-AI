@@ -17,7 +17,7 @@ export default function Page() {
   
   return (
     <>
-      <main className='flex  max-h-[99dvh] flex-col mt-16 h-[90dvh] bg-white px-2  overflow-y-hidden '>
+      <main className='flex  max-h-[99dvh] flex-col mt-16 h-[90dvh] bg-white md:px-2  overflow-y-hidden '>
 
         <section className='flex h-full  overflow-y-hidden'>
           <article className='w-full flex justify-between flex-col  max-h-max lg:mx-32 overflow-y-hidden '>

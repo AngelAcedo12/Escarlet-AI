@@ -5,12 +5,13 @@ import { ReactElement, CSSProperties } from "react";
 interface MessagePart {
   leguaje?: string;
   text: string;
-  type: 'code' | 'inline-code' | 'bold' | 'normal';
+  type: 'code' | 'inline-code' | 'bold' | 'normal' ;
 }
 
 
 const obteinsParts = (text: string): MessagePart[] => {
-  text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+ 
   const regexSplit = /(```[\s\S]*?```)|(`[\s\S]*?`)|(\*\*[\s\S]*?\*\*)|(__[\s\S]*?__)|(\*[\s\S]*?\*)|(_[\s\S]*?_)|(~[\s\S]*?~)|(\[\[[\s\S]*?\]\])/g;
 
   return text.split(regexSplit).filter((part, index) => {
@@ -39,13 +40,16 @@ const obteinsParts = (text: string): MessagePart[] => {
         text: part,
         type: 'bold'
       };
-    } else {
+    } 
+    else {
       return {
+
         text: part,
         type: 'normal'
       };
     }
   });
+
 }
 
 
@@ -63,13 +67,16 @@ const createHtml = (parts: MessagePart[]): ReactElement => {
   }
 
   return (
-    <div dir="auto" className=" ">
+    <p dir="auto" className="">
       {
         parts.map((part, index) => {
           switch (part.type) {
             case 'code':
-              return <div className=' rounded-lg   mt-5  ' dir='ltr' key={index}  >
-                <div className='bg-slate-400 rounded-t-lg p-2 '>{part.leguaje}</div>
+              return <span className=' mt-5 mb-5 rounded-t-lg ' dir='auto' key={index}  >
+                <div className='bg-slate-400 rounded-t-lg p-2 'style={{
+                  borderTopLeftRadius: '0.5rem',
+                  borderTopRightRadius: '0.5rem',
+                }} >{part.leguaje}</div>
                 <div className='rounded-b-xl  '>
                   <CodeBlock style={style} code={part.text} language={part.leguaje as PrismLangauge} theme={dracula} />
 
@@ -77,18 +84,22 @@ const createHtml = (parts: MessagePart[]): ReactElement => {
                     {part.text}
                   </code> */}
                 </div>
-              </div>
+              </span>
             case 'inline-code':
               return <span className='font-bold  w-fit text-wrap' key={index} >{part.text}</span>
             case 'bold':
               return <strong key={index}>{part.text}</strong>
             default:
-              return <span className=" w-fit text-wrap" key={index}>{part.text}</span>
+              return <span style={
+                {
+                  whiteSpace: 'pre-line',
+                }
+              }>{part.text}</span>
           }
         })
 
       }
-    </div>
+    </p>
   )
 
 
@@ -102,7 +113,7 @@ const messageFormater = (text: string) => {
   let html: ReactElement = createHtml(parts)
 
   return (
-    <div className='whitespace-pre-wrap' dir='auto' >
+    <div className='whitespace-pre-line' dir='auto' >
       {html}
     </div>
   )
