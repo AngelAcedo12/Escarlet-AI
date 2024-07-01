@@ -11,26 +11,26 @@ export default function Chat() {
     const [userMessageInput, setMessageInput] = useState<string>('');
     const [isCompatible, setIsCompatible] = useState<boolean>(true);
     const [register, setRegister] = useState<boolean>(false);
-   async function initServiceWorker() {
-        if ('serviceWorker' in navigator) {
-       
-            const registration = await navigator.serviceWorker.register(new URL('../sw.ts', import.meta.url),
-                {
-                    type: 'module'
-                }
-            );
-            if (registration.installing) {
-                console.log("Service worker installing");
-              } else if (registration.waiting) {
-                console.log("Service worker installed");
-              } else if (registration.active) {
-                console.log("Service worker active");
-              }
-            registration.update();
+    // async function initServiceWorker() {
+    //     if ('serviceWorker' in navigator) {
 
-        }
-        
-    }
+    //         const registration = await navigator.serviceWorker.register(new URL('../swChat.ts', import.meta.url),
+    //             {
+    //                 type: 'module'
+    //             }
+    //         );
+    //         if (registration.installing) {
+    //             console.log("Service worker installing");
+    //         } else if (registration.waiting) {
+    //             console.log("Service worker installed");
+    //         } else if (registration.active) {
+    //             console.log("Service worker active");
+    //         }
+    //         registration.update();
+
+    //     }
+
+    // }
 
     function initWorket() {
 
@@ -54,11 +54,11 @@ export default function Chat() {
 
             setIsCompatible(detectedCompatibility());
             if (isCompatible && !register) {
-                
-                initServiceWorker()
+
+                // initServiceWorker()
                 initWorket()
                 chat.initChat()
-                chat.initServiceWorker()
+                // chat.initServiceWorker()
                 setRegister(true);
             }
         }
@@ -108,7 +108,7 @@ export default function Chat() {
                 </div>
                 <div className='h-full w-full '>
                     <ul className=' flex flex-col'>
-                        
+
                         <p className='text-neutral-400 text-sm '>
                             Este proceso puede llevar un tiempo por favor espere.
                             <br />
@@ -130,7 +130,7 @@ export default function Chat() {
         return (
 
             <>
-                <ul className='h-full flex flex-col  overflow-y-auto px-2 mb:px-2 pb-4'>
+                <ul className='h-full flex flex-col  overflow-y-auto  pb-4'>
                     {
                         chat.messages.map((message, index) => {
                             return <Messaje key={index} content={messageFormater(message.text)} user={message.user} />
