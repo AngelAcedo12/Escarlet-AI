@@ -99,10 +99,10 @@ function useChat() {
 
         if (window.Worker) {
 
-            if (initEngineWorkerRef.current && countEnter == 0) {
-                countEnter++;
+            if (initEngineWorkerRef.current ) {
+            
                 
-                let engine = await webllm.CreateWebWorkerMLCEngine(
+                await webllm.CreateWebWorkerMLCEngine(
                     initEngineWorkerRef.current,
                     selectedModel,
                     {
@@ -119,9 +119,10 @@ function useChat() {
 
                     },
 
-                )
-                setEngine(engine);
-                ;
+                ).then((engine) => {
+                    setEngine(engine)
+                })
+                
             }
         }
     }
