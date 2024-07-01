@@ -30,6 +30,7 @@ function useChat() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             selectedModel = determineModel();
+
         }
     }, [])
 
@@ -44,7 +45,7 @@ function useChat() {
                 content: text,
                 name: "User"
             }
-
+            console.log(mobile)
             let request: webllm.ChatCompletionRequestStreaming
             if (mobile == typesMobile.DESKTOP) {
                 let actualMessage = mapAllMessage();
@@ -52,27 +53,50 @@ function useChat() {
                 request = {
                     messages: actualMessage,
                     stream: true,
-                    max_tokens: 300,
+                    max_tokens: 1000,
+                    response_format: {
+                        type: "text",
+                    } as webllm.ResponseFormat,
+                    temperature: 0.5,
                 }
             } else {
                 request = {
                     messages: [userRequest],
                     stream: true,
-                    max_tokens: 200,
+                    max_tokens: 500,
+                    response_format: {
+                        
+                        type: "text",
+                    } as webllm.ResponseFormat,
+                   
+                    temperature: 0.5,
                 };
+                
+             
             }
+            
             setGenerateMessage(true);
             let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
 
-            let botMessage = "";
             for await (const chunk of response) {
+                
                 const [choices] = chunk.choices;
-                const content = choices.delta.content ?? "";
-                botMessage += content;
-                setReply((oldContent) => oldContent += content);
+                const content = choices.delta.content
+                if (content == " ") {
+                    continue;
+                }else{
+
+                    setReply((oldContent) => oldContent += content);
+                }
+                    
             }
+            const messageBot =await engine.getMessage().then((message) => message);
+            addMessage({
+                text: messageBot,
+                user: "bot",
+                name: "bot"
+            });
             setGenerateMessage(false);
-            addMessage({ text: botMessage, user: "bot", name: "Escarlet" });
             setReply("");
         }
 
@@ -100,26 +124,25 @@ function useChat() {
         if (window.Worker) {
 
             if (initEngineWorkerRef.current ) {
-            
-                
                 await webllm.CreateWebWorkerMLCEngine(
                     initEngineWorkerRef.current,
                     selectedModel,
                     {
                         initProgressCallback: initProgressCallback,
-
                     },
                     {
+   
                         conv_config: {
 
                             system_message: "Te llamas Escarlet y eres un asistente virtual el cual habla en Español",
-                            stop_str: ['\n'],
+                            
                             
                         },
 
                     },
 
                 ).then((engine) => {
+                    console.log(engine)
                     setEngine(engine)
                 })
                 
@@ -131,8 +154,6 @@ function useChat() {
             {initProgressCallback: initProgressCallback}
         );
         console.log(engine)
-
-
 
     }
 
@@ -151,7 +172,9 @@ function useChat() {
     }
 
     const determineModel = () => {
-        return isMobile() == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Llama-3-8B-Instruct-q4f32_1-MLC-1k"
+        let model = isMobile()
+        setMobile(model)
+        return model== "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Qwen2-1.5B-Instruct-q4f16_1-MLC"
     }
 
     const mapAllMessage = () => {

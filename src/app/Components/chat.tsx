@@ -3,6 +3,7 @@ import React, { use, useEffect, useState } from 'react'
 import Messaje from './Messaje';
 import Script from 'next/script';
 import { useChat } from './hooks/useChat';
+import { messageFormater } from '@/utils/messageFormater';
 
 export default function Chat() {
 
@@ -53,6 +54,7 @@ export default function Chat() {
 
             setIsCompatible(detectedCompatibility());
             if (isCompatible && !register) {
+                
                 initServiceWorker()
                 initWorket()
                 chat.initChat()
@@ -106,6 +108,7 @@ export default function Chat() {
                 </div>
                 <div className='h-full w-full '>
                     <ul className=' flex flex-col'>
+                        
                         <p className='text-neutral-400 text-sm '>
                             Este proceso puede llevar un tiempo por favor espere.
                             <br />
@@ -130,11 +133,11 @@ export default function Chat() {
                 <ul className='h-full flex flex-col  overflow-y-auto  pb-4'>
                     {
                         chat.messages.map((message, index) => {
-                            return <Messaje key={index} text={message.text} user={message.user} />
+                            return <Messaje key={index} content={messageFormater(message.text)} user={message.user} />
                         })
                     }
                     {
-                        chat.generateMessage == true ? <Messaje text={chat.reply} user={"bot"} reply={true} /> : null
+                        chat.generateMessage == true ? <Messaje content={messageFormater(chat.reply)} user={"bot"} reply={true} /> : null
                     }
 
                 </ul>

@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="esp" className="bg-white scroll-smooth" >
+    <html lang="esp" className="bg-white scroll-smooth " >
       <body   className={inter.className}  > 
       <Navbar />
       {children}
