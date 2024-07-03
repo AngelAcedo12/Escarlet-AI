@@ -11,26 +11,7 @@ export default function Chat() {
     const [userMessageInput, setMessageInput] = useState<string>('');
     const [isCompatible, setIsCompatible] = useState<boolean>(true);
     const [register, setRegister] = useState<boolean>(false);
-    // async function initServiceWorker() {
-    //     if ('serviceWorker' in navigator) {
 
-    //         const registration = await navigator.serviceWorker.register(new URL('../swChat.ts', import.meta.url),
-    //             {
-    //                 type: 'module'
-    //             }
-    //         );
-    //         if (registration.installing) {
-    //             console.log("Service worker installing");
-    //         } else if (registration.waiting) {
-    //             console.log("Service worker installed");
-    //         } else if (registration.active) {
-    //             console.log("Service worker active");
-    //         }
-    //         registration.update();
-
-    //     }
-
-    // }
 
     function initWorket() {
 
@@ -54,11 +35,10 @@ export default function Chat() {
 
             setIsCompatible(detectedCompatibility());
             if (isCompatible && !register) {
-
-                // initServiceWorker()
+             
                 initWorket()
                 chat.initChat()
-                // chat.initServiceWorker()
+               
                 setRegister(true);
             }
         }
@@ -103,13 +83,13 @@ export default function Chat() {
                         {
                             width: `${chat.progress}`
                         }
-                    } className={` bg-blue-400 h-1 animate-pulse rounded-xl`}>
+                    } className={` bg-rose-500 h-1 animate-pulse rounded-xl`}>
 
                 </div>
-                <div className='h-full w-full '>
+                <div className='h-full w-full text-white '>
                     <ul className=' flex flex-col'>
 
-                        <p className='text-neutral-400 text-sm '>
+                        <p className=' text-sm '>
                             Este proceso puede llevar un tiempo por favor espere.
                             <br />
                             {chat.statusText}
@@ -141,12 +121,14 @@ export default function Chat() {
                     }
 
                 </ul>
-
-                <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-black  animate-fade '>
-                    <input value={userMessageInput} disabled={chat.generateMessage} onInput={(e) => handleUserMessage(e)} className='w-full bg-transparent border border-slate-500 p-2 rounded-lg  disabled:animate-pulse'
-                        type='text' placeholder='¿Como estamos?' />
-                    <button disabled={chat.generateMessage}>Enviar</button>
-                </form>
+                <div className='fixed bottom-0 w-full z-50 left-0 px-2 py-2 bg-[#131111] flex'>
+                    <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-slate-100  w-full  sm:justify-center  animate-fade '>
+                        <input value={userMessageInput} disabled={chat.generateMessage} onInput={(e) => handleUserMessage(e)} className='w-96 bg-transparent border border-slate-500 p-2 rounded-lg  disabled:animate-pulse'
+                            type='text' placeholder='¿Como estamos?' />
+                        <button className='text-rose-500' disabled={chat.generateMessage}>Enviar</button>
+                    </form>
+                </div>
+              
             </>
 
         )

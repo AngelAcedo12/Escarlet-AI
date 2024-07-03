@@ -9,7 +9,9 @@ const withPWA  = ({
 
 const nextConfig = {
     
-    
+    experimental: {
+        nextScriptWorkers: true,
+      },
 };
 
 

@@ -12,9 +12,9 @@ type MessajeProps = {
 export default function Messaje({ content, user, reply }: MessajeProps) {
 
   const classBot = "md:px-2 rounded-md text-black mt-2 flex flex-col w-auto items-start "
-  const classUser = "md:px-2 rounded-md  text-black  mt-2 flex flex-col w-auto  items-end "
-  const messageUserClass = " bg-green-400 w-fit text-end "
-  const messageBotClass = " bg-neutral-100 w-fit"
+  const classUser = "md:px-2 rounded-md    mt-2 flex flex-col w-auto  items-end "
+  const messageUserClass = " bg-zinc-900   w-fit text-end "
+  const messageBotClass = " bg-neutral-800 w-fit"
   const messageClass = user == "bot" ? messageBotClass : messageUserClass
   
 
@@ -23,9 +23,9 @@ export default function Messaje({ content, user, reply }: MessajeProps) {
     return (
       <li className={user == "bot" ? classBot : classUser}>
         <div className={'mt-2  p-2  md:px-4 rounded-lg animate-pulse' + messageClass}>
-          <strong>{user == "bot" ? "Escarlet" : "User"}</strong>
+          <strong  className='text-rose-500'>{user == "bot" ? "Escarlet" : "User"}</strong>
           <br />
-          <div className='max-w-full' dir='auto'>
+          <div className='max-w-full  text-slate-100' dir='auto'>
             {content}
           </div>
         </div>
@@ -37,9 +37,9 @@ export default function Messaje({ content, user, reply }: MessajeProps) {
       <li className={user == "bot" ? classBot : classUser}>
 
         <div className={'mt-2 p-2 md:px-4 rounded-lg animate-fade' + messageClass}>
-          <strong>{user == "bot" ? "Escarlet" : "User"}</strong>
+          <strong  className='text-rose-500'>{user == "bot" ? "Escarlet" : "User"}</strong>
           <br />
-          <div className='max-w-full' dir='auto'>
+          <div className='max-w-full text-slate-100' dir='auto'>
             {content}
           </div>
         </div>
