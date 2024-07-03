@@ -1,6 +1,6 @@
 {
-    "name": "Mi Aplicación",
-    "short_name": "App",
+    "name": "Escarlet IA",
+    "short_name": "Escarlet IA",
     "start_url": "/",
     "display": "standalone",
     "theme_color": "#ffffff",
@@ -8,8 +8,36 @@
     "icons": [
         {
             "src": "/favicon.ico",
+            "sizes": "256x256",
+            "type": "image/x-ico"
+        },
+        {
+            "src": "./img/logoProjectEscarlet192x192.jpeg",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/jpeg"
+        },
+        {
+            "src": "./img/logo512x512.jpeg",
+            "sizes": "512x512",
+            "type": "image/jpeg"
+        }
+    ],
+    "splash_pages": null,
+    "screenshots": [
+        {
+            "src": "./img/logo512x512.jpeg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "form_factor": "narrow",
+            "label": "Icon of Escarlet IA"
+        },
+        {
+            "src": "./img/logo512x512.jpeg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "form_factor": "wide",
+            "label": "Icon of Escarlet IA"
         }
     ]
+    
 }

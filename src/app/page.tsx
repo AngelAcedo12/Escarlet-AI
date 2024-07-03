@@ -13,13 +13,13 @@ export default function Home() {
           alt="Project Escarlet"
           className="w-full h-auto rounded-r-none rounded-lg sm:w-96 sm:h-96"
 
-        /> 
+        />
         <div className="flex flex-col  p-4 justify-around gap-3 ">
 
-        <p className=" text-balance max-w-96 text-slate-100 " >
-          Project Escarlet es un projecto que busca ayudar a las personas a tener una vida más feliz y saludable gracias a la IA.
-        </p>
-        <ButtonLink href="/chat" text="Empecemos"></ButtonLink>
+          <p className=" text-balance max-w-96 text-slate-100 " >
+            Project Escarlet es un projecto que busca ayudar a las personas a tener una vida más feliz y saludable gracias a la IA.
+          </p>
+          <ButtonLink href="/chat" text="Empecemos"></ButtonLink>
         </div>
 
       </div>
