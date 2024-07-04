@@ -38,12 +38,13 @@ export default function RootLayout({
   return (
     <html lang="esp" className=" text-white scroll-smooth h-full" >
       
-      <body  className={inter.className}  > 
+      <body  className={inter.className }  > 
       <Navbar />
       {children}
+  
       </body>
       
-     
+      
     </html>
   );
 }

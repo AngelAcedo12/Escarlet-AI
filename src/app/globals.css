@@ -3,6 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+::-webkit-scrollbar{
+  width: 2px;
+
+}
+::-webkit-scrollbar-thumb{
+  background: #f82b2b;
+  border-radius: 10px;
+}
+
 :root {
   --background: #131111
 }
@@ -15,8 +25,19 @@ body {
   background: var(--background)
 }
 
+.desactive-scrollbar::-webkit-scrollbar{
+  display: none;
+
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+
+.gradiant_text{
+  background: -webkit-linear-gradient(45deg, #09009f, #f82b2b 80%);
+  background-clip: text; /* apply background clip */
+  -webkit-text-fill-color: transparent;
 }

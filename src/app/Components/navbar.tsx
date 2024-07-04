@@ -7,8 +7,8 @@ export default function Navbar() {
   return (
     <div className=' bg-inherit text-rose-500  fixed w-full top-0 z-50'>
       <nav className='flex justify-between items-center p-4   ' >
-        <h1 className='text-2xl'>Project Escarlet</h1>
-        <ul className='flex space-x-4'>
+        <h1 className='text-2xl'>Escarlet IA</h1>
+        <ul className='flex space-x-4 items-center justify-center align-middle'>
           <Link href='/'><li className={classLink}>Home</li></Link>
           <Link href='/about'><li className={classLink}>About</li></Link>
         </ul>
