@@ -4,7 +4,7 @@ import { useChat } from './hooks/useChat';
 import { chatConversation } from '@/interfaces/conver';
 import useConversation from './hooks/useConversation';
 import Sum from './Icons/sum';
-import { useChatContext } from './context/appContex';
+import { useChatContext } from './context/chatContext';
 import formaterDate from '@/utils/dateFormater';
 
 const ListConversation = () => {

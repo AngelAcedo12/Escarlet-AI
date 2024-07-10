@@ -5,7 +5,7 @@ import Script from 'next/script';
 import { useChat } from './hooks/useChat';
 import { messageFormater } from '@/utils/messageFormater';
 import { off } from 'process';
-import { useChatContext } from './context/appContex';
+import { useChatContext } from './context/chatContext';
 
 export default function Chat() {
 

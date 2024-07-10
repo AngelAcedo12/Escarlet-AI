@@ -5,7 +5,7 @@ import Script from 'next/script';
 import React, { use, useEffect, useRef, useState } from 'react'
 import Chat from '../Components/chat';
 import LeftBar from '../Components/leftBar';
-import { ChatProvider } from '../Components/context/appContex';
+import { ChatProvider } from '../Components/context/chatContext';
 
 export default function Page() {
 
