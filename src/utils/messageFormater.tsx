@@ -67,7 +67,7 @@ const createHtml = (parts: MessagePart[]): ReactElement => {
   }
 
   return (
-    <p dir="auto" className="">
+    <div dir="auto" className="">
       {
         parts.map((part, index) => {
           switch (part.type) {
@@ -94,12 +94,12 @@ const createHtml = (parts: MessagePart[]): ReactElement => {
                 {
                   whiteSpace: 'pre-line',
                 }
-              }>{part.text}</span>
+              } key={index}>{part.text}</span>
           }
         })
 
       }
-    </p>
+    </div>
   )
 
 

@@ -5,26 +5,25 @@ import ButtonLink from "./Components/buttonLink";
 import { useEffect } from "react";
 import DescargaIcon from "./Components/Icons/descarga_svg";
 import PdfIcon from "./Components/Icons/pdf_icon";
+import { useChat } from "./Components/hooks/useChat";
+import Navbar from "./Components/navbar";
 
 export default function Home() {
 
+  const chat = useChat();
+
   async function initServiceWorker() {
     if ('serviceWorker' in navigator) {
+    console.info("Service Worker API is available and in use.");
 
-      const registration = await navigator.serviceWorker.register(new URL('./sw.ts', import.meta.url),
-        {
-          type: 'module'
-        }
-      );
-      if (registration.installing) {
-        console.log("Service worker installing");
-      } else if (registration.waiting) {
-        console.log("Service worker installed");
-      } else if (registration.active) {
-        console.log("Service worker active");
-      }
-      registration.update();
-
+    const registration =await  navigator.serviceWorker.register(new URL('./sw.ts', import.meta.url),
+    {
+      type: 'module'
+    }
+  );
+ 
+    registration.update();
+    chat.initServiceWorker();
     }
 
   }
@@ -38,6 +37,8 @@ export default function Home() {
 
 
   return (
+    <>
+    <Navbar></Navbar>
     <main className="flex h-full flex-col items-center  mt-16  p-4   ">
       <section className="flex flex-col  align-middle items-center gap-10 justify-center animate-fade-up h-[80dvh] ">
 
@@ -62,5 +63,7 @@ export default function Home() {
       </section>
       <div className="h-20"></div>
     </main>
+    </>
+
   );
 }

@@ -1,8 +1,14 @@
 import { WebWorkerMLCEngineHandler } from "@mlc-ai/web-llm"
 
-const handler = new WebWorkerMLCEngineHandler()
+let handler : WebWorkerMLCEngineHandler  
+
+
 
 self.onmessage = msg => {
+    if(!handler){
+        handler = new WebWorkerMLCEngineHandler()
+    }
     handler.onmessage(msg)
     
 }
+

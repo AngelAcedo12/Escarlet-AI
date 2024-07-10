@@ -35,11 +35,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
+
+
+
   return (
+    
     <html lang="esp" className=" text-white scroll-smooth h-full" >
       
       <body  className={inter.className }  > 
-      <Navbar />
+     
       {children}
   
       </body>
