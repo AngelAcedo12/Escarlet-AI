@@ -198,7 +198,7 @@ function useChat() {
     const determineModel = () => {
         let model = isMobile()
         setMobile(model)
-        return model == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Qwen2-1.5B-Instruct-q4f16_1-MLC"
+        return model == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Phi-3-mini-4k-instruct-q4f16_1-MLC-1k"
     }
 
     const mapAllMessage = () => {
@@ -244,7 +244,7 @@ function useChat() {
 
     }
 
-    const loadConversation = async (conversation: chatConversation) => {
+    const changeConversations = async (conversation: chatConversation) => {
         setConversation(conversation);
         setMessages(conversation.messages)
     }
@@ -298,7 +298,7 @@ function useChat() {
         initConversation,
         message,
         saveConversations,
-        loadConversation,
+        changeConversations,
         newConversation
 
     }

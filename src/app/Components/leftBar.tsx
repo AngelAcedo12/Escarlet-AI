@@ -7,15 +7,47 @@ import Sum from './Icons/sum';
 import { useChatContext } from './context/chatContext';
 import formaterDate from '@/utils/dateFormater';
 
+
+const Conversation = (props: {date:string, title: string, id: string} ) =>{
+   
+    const {chat,conversationHook} = useChatContext();
+   
+    const getConversations = () => {
+       return conversationHook.mapConversation.find((day) => day.date === props.date)?.conversations.find((conversation) => conversation.id === props.id)
+    }
+
+    const loadConversation = () => {
+       
+        console.log("Load conversation")
+        const conversation = getConversations()
+        console.log(conversation, "Conversation")
+        if(conversation){
+            chat.changeConversations(conversation) 
+        }else{
+            console.log("No se encontro la conversacion")
+        }
+    }
+
+    return (
+        <li onClick={loadConversation} className='p-2  rounded-lg  hover:bg-zinc-800 transition-all cursor-pointer animate-fade'>
+            <div className='flex flex-row items-baseline'>
+                <h1 className='text-rose-500 truncate text-sm'>
+                {props.title}
+                </h1>
+            </div>
+          <div className='flex flex-col '>
+            <h2 className='text-xs text-neutral-500'>{props.date}</h2>
+            <h3 className='text-xs truncate text-neutral-500'>{props.id}</h3>
+          </div>
+        </li>
+    )
+}
+
 const ListConversation = () => {
     const  {conversationHook} = useChatContext();
     const actualDate = formaterDate(new Date())
     const {mapConversation} = conversationHook;
 
-
-    useEffect(() => {
-        console.log(mapConversation)
-    },[mapConversation])
     return (
         <div className='flex flex-col gap-2'>
             {
@@ -42,44 +74,21 @@ const ListConversation = () => {
     )    
 }
  
-const Conversation = (props: {date:string, title: string, id: string} ) =>{
 
-
-    const {chat,conversationHook} = useChatContext();
-    
-    const loadConversation = () => {
-    //
-    }
-
-    return (
-        <li onClick={loadConversation} className='p-2  rounded-lg  hover:bg-zinc-800 transition-all cursor-pointer animate-fade'>
-            <div className='flex flex-row items-baseline'>
-                <h1 className='text-rose-500 truncate text-sm'>
-                {props.title}
-                </h1>
-            </div>
-          <div className='flex flex-col '>
-            <h2 className='text-xs text-neutral-500'>{props.date}</h2>
-            <h3 className='text-xs truncate text-neutral-500'>{props.id}</h3>
-          </div>
-        </li>
-    )
-}
 
 
 export default function LeftBar() {
     const {chat,conversationHook} = useChatContext();
     
     const newConversation = () => {
-        console.log("New conversation")
+       
         chat.newConversation()
     }
 
     useEffect(() => {
         if(window){
             
-                conversationHook.loadConverSetions()
-           
+            conversationHook.loadConverSetions()
         }
     },[])
 
