@@ -40,6 +40,7 @@ body {
   background: -webkit-linear-gradient(45deg, #09009f, #f82b2b 80%);
   background-clip: text; /* apply background clip */
   -webkit-text-fill-color: transparent;
+
 }
 
 .closeNav {
@@ -53,6 +54,7 @@ body {
 textarea::-webkit-scrollbar{
   width: 0;
 }
+
 @keyframes closeNav {
   0% {
     transform: translateX(0);
@@ -63,6 +65,50 @@ textarea::-webkit-scrollbar{
   }
   100%{
     display: hidden;
+  }
+}
+
+
+.loader{
+  animation: loaderAnimted infinite 2s cubic-bezier(0.6, -0.28, 0.735, 0.045) ;
+  transition: all 1s ease-in-out; 
+  background: -webkit-linear-gradient(45deg, #09009f, #f82b2b 80%);
+ /* apply background clip */
+  
+  
+}
+
+@keyframes textGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+  
+}
+
+@keyframes loaderAnimted {
+  0% {
+    scale: 1;
+    border-radius: 100%;
+  
+  }25%{
+    scale: 0.9;
+    border-radius: 20%;
+    rotate: 90deg;
+  }
+  50% {
+    scale: 0.5;
+    border-radius: 0%;
+    rotate: 90deg;
+  } 100%{
+    scale: 1;
+    border-radius: 100%;
+
   }
   
 }

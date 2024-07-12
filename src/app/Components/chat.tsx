@@ -31,40 +31,17 @@ export default function Chat() {
     // Si el sistema esta en proceso de inicializacion renderizara este componente
     if (chat.initialization != true) {
         return (
-            <div className='p-2'>
-                <div
-                    style={
-                        {
-                            width: `${chat.progress}`
-                        }
-                    } className={` bg-rose-500 h-1 animate-pulse rounded-xl`}>
-
-                </div>
-                <div className='h-full w-full text-white '>
-                    <ul className=' flex flex-col'>
-
-                        <p className=' text-sm '>
-                            Este proceso puede llevar un tiempo por favor espere.
-                            <br />
-                            {chat.statusText}
-                        </p>
-                    </ul>
-
-                </div>
-
-
-
-            </div>
-
-
+           <></>
         )
 
     } else {
         // Si el sistema esta inicializado renderizara el chat
         return (
 
-            <div className='flex flex-col mx-2 md:px-4  max-h-max my-2 h-full overflow-y-auto'>
-                <ul className='flex flex-col md:px-0 px-2'>
+
+            <div className='flex flex-col relative h-full overflow-y-auto'>
+                <ul className='h-full flex flex-col max-h-max overflow-y-auto  pb-2 md:px-0 px-2'>
+
                     {
                         chat.conversation == undefined ?
                             <Messaje content={messageFormater('Hola, soy Escarlet tu asistente virtual ¿En que puedo ayudarte?')} user={"bot"} />
@@ -75,12 +52,15 @@ export default function Chat() {
 
                     }
                     {
-                        chat.generateMessage == true ? <Messaje content={messageFormater(chat.reply)} user={"bot"} reply={true} /> : null
+                          chat.generateMessage == true ? (
+                            
+                                <Messaje content={messageFormater(chat.reply)} user={"bot"} reply={true} />
+                            
+                        ) : null
                     }
 
                 </ul>
-                
-
+            
             </div>
 
         )

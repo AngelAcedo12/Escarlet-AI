@@ -17,7 +17,7 @@ import { URL } from "url";
 function useChat() {
     let selectedModel = "";
     const [engine, setEngine] = useState<webllm.MLCEngineInterface>();
-    const [progress, setProgress] = useState("0.00%");
+    const [progress, setProgress] = useState(0);
     const [statusText, setStatusText] = useState("");
     const [progressInit, setProgressInit] = useState(0);
     const [reply, setReply] = useState("");
@@ -26,6 +26,7 @@ function useChat() {
     const [generateMessage, setGenerateMessage] = useState(false);
     const [initialization, setInitialization] = useState(false);
     const [mobile, setMobile] = useState("");
+    const [modelInCache, setModelInCache] = useState(true);
     const initEngineWorkerRef = useRef<Worker>();
 
     let countInit = 0
@@ -36,7 +37,17 @@ function useChat() {
         if (typeof window !== 'undefined') {
             selectedModel = determineModel();
 
+            window.caches.keys().then((keys) => {
+            
+                if (keys.includes("webllm/config" || "webllm/model" || "webllm/wasm")) {
+                    setModelInCache(true)
+                }else{
+                    setModelInCache(false)
+                }
+            
+            })    
         }
+
         if (generateMessage == false && conversation != undefined) {
             saveConversations();
         }
@@ -57,28 +68,72 @@ function useChat() {
                 console.log("Init conversation")
                 initConversation(text)
             }
-            let request: webllm.ChatCompletionRequestStreaming
+            let request: webllm.ChatCompletionRequestStreaming =await generateRequest(userRequest);
+
+            setGenerateMessage(true);
+            try{
+                let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
+            
+                for await (const chunk of response) {
+                  
+                    const [choices] = chunk.choices;
+                    const content = choices.delta.content
+                    if (content == "") {
+                        continue;
+                    } else {
+    
+                        setReply((oldContent) => oldContent += content);
+                    }
+    
+                }
+                const messageBot = await engine.getMessage().then((message) => message);
+                addMessage({
+                    text: messageBot,
+                    user: "bot",
+                    name: "bot"
+                });
+    
+                setReply("");
+    
+            }catch(e){
+                console.log(e)
+                console.log(e instanceof Error)
+                if(e instanceof Error){
+                    addMessage({
+                        text: "Error en la solicitud",
+                        user: "bot",
+                        name: "bot"
+                    });
+                }
+                setReply("");
+                setGenerateMessage(false);
+               
+            }
+          
+        }
+
+       async function generateRequest(userRequest: webllm.ChatCompletionUserMessageParam) {
+            let request: webllm.ChatCompletionRequestStreaming;
 
             if (mobile == typesMobile.DESKTOP) {
-                let actualMessage = mapAllMessage();
+                // Se ha deshabilitado el contexto por ahora
+                // let actualMessage = mapAllMessage();
 
-                actualMessage?.push(userRequest)
+                // actualMessage?.push(userRequest);
+                
                 request = {
-                    messages: actualMessage || [],
+                    messages: [userRequest],
                     stream: true,
-                    max_tokens: 1000,
                     response_format: {
                         type: "text",
                     } as webllm.ResponseFormat,
                     temperature: 0.5,
-                }
+                };
             } else {
                 request = {
                     messages: [userRequest],
                     stream: true,
-                    max_tokens: 500,
                     response_format: {
-
                         type: "text",
                     } as webllm.ResponseFormat,
 
@@ -87,40 +142,16 @@ function useChat() {
 
 
             }
-
-            setGenerateMessage(true);
-            await setTimeout(() => {
-            }, 1000);
-            let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
-
-            for await (const chunk of response) {
-
-                const [choices] = chunk.choices;
-                const content = choices.delta.content
-                if (content == " ") {
-                    continue;
-                } else {
-
-                    setReply((oldContent) => oldContent += content);
-                }
-
-            }
-            const messageBot = await engine.getMessage().then((message) => message);
-            addMessage({
-                text: messageBot,
-                user: "bot",
-                name: "bot"
-            });
-
-            setReply("");
-
+            return request;
         }
     }
 
     const initProgressCallback = (progress: InitProgressReport) => {
         getProggest(progress.progress);
         setStatusText(progress.text);
-
+        if(progress.progress >0 && progress.progress < 1){
+            setModelInCache(false)
+        }
         if (progress.progress == 1) {
             setInitialization(true);
 
@@ -130,7 +161,7 @@ function useChat() {
     const getProggest = (valueProgress: number) => {
 
         let progress = valueProgress * 100;
-        setProgress(progress.toFixed(2) + '%');
+        setProgress(progress);
         setProgressInit(valueProgress);
     }
 
@@ -153,7 +184,7 @@ function useChat() {
                         conv_config: {
                             system_message: "Te llamas Escarlet y eres un asistente virtual el cual habla en Español",
                         },
-
+                      
                     },
 
                 ).then((engine) => {
@@ -237,11 +268,13 @@ function useChat() {
             messages: message,
             date: dateFormater,
             title: title,
-            id: id
+            id: id,
+            new: true
         }
 
         setConversation(conversation)
-
+        setGenerateMessage(false);
+        setReply("");
     }
 
     const changeConversations = async (conversation: chatConversation) => {
@@ -298,6 +331,7 @@ function useChat() {
         saveConversations,
         changeConversations,
         newConversation,
+        modelInCache,
         mobile
 
     }

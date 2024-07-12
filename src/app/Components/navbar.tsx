@@ -3,14 +3,17 @@ import Link from 'next/link'
 import React from 'react'
 
 export default function Navbar() {
-  const classLink = "hover:border-b-black border-b-2 border-b-transparent   transition-all"
+  const classLink = "hover:bg-zinc-800 border-b-2 rounded-lg border-b-transparent p-2  transition-all"
   return (
     <div className=' bg-inherit text-rose-500  fixed w-full top-0 z-50'>
       <nav className='flex justify-between items-center p-4   ' >
-        <h1 className='text-2xl'>Escarlet IA</h1>
+        <Link href='/'>
+          <h1 className='text-2xl gradiant_text'>Escarlet AI</h1>
+        </Link>
         <ul className='flex space-x-4 items-center justify-center align-middle'>
-          <Link href='/'><li className={classLink}>Home</li></Link>
-          <Link href='/about'><li className={classLink}>About</li></Link>
+          <Link href='/chat'><li className={classLink}>
+              <img alt='chat' className='object-cover' width={30} height={30} src='/img/logoProjectEscarlet-removebg.png'></img>
+            </li></Link> 
         </ul>
       </nav>
     </div>

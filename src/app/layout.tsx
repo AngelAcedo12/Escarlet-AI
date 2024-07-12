@@ -1,4 +1,4 @@
-
+"use client"
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -7,6 +7,7 @@ import Script from "next/script";
 import Navbar from "./Components/navbar";
 import { Icon, Icons } from "next/dist/lib/metadata/types/metadata-types";
 import { useEffect } from "react";
+import { ChatProvider } from "./Components/context/chatContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const icons : Icon[] = [
@@ -39,14 +40,17 @@ export default function RootLayout({
 
 
   return (
-    
+
     <html lang="esp" className=" text-white scroll-smooth h-full" >
-      
-      <body  className={inter.className }  > 
      
+        
+      <body  className={inter.className }  > 
+      <ChatProvider>
       {children}
-  
+      </ChatProvider>   
       </body>
+        
+         
       
       
     </html>
