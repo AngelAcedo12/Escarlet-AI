@@ -1,3 +1,4 @@
+import Loader from "@/app/Components/loader";
 import { CodeBlock, dracula, PrismLangauge, xonokai } from "@react-email/code-block";
 import { ReactElement, CSSProperties } from "react";
 
@@ -70,10 +71,12 @@ const createHtml = (parts: MessagePart[]): ReactElement => {
     borderTopRightRadius: '0',
     textWrap: 'wrap',
   }
+  
 
   return (
     <div >
-      {
+      
+     {
         parts.map((part, index) => {
           switch (part.type) {
             case 'code':

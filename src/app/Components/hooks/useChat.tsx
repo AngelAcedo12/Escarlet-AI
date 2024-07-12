@@ -268,7 +268,8 @@ function useChat() {
             messages: message,
             date: dateFormater,
             title: title,
-            id: id
+            id: id,
+            new: true
         }
 
         setConversation(conversation)

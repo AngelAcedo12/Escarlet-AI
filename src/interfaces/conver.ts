@@ -5,6 +5,7 @@ export interface chatConversation {
     date : string;
     title: string;
     id: string;
+    new: boolean;
 }
 
 export interface chatConversationDay{

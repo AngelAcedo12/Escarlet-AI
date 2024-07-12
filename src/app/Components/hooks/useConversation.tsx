@@ -10,13 +10,15 @@ const useConversation = () => {
    
     const [mapConversation, setMapConversation] = useState<chatConversationDay[]>([]);
     const [openOrClose, setOpenOrClose] = useState<boolean>(false)
-    
     let storageEvent : StorageEvent 
 
 
     useEffect(() => {
         if(window){
             isMobile() === "MOBILE" ? setOpenOrClose(false) : setOpenOrClose(true)
+            setInterval(() => {
+                loadConverSetions()
+            }, 5000);
         }
     },[])
 
@@ -27,12 +29,14 @@ const useConversation = () => {
             if (conversations) {
                 
                 conversations = conversations.reverse()
+
                 setMapConversation(orderToDates(conversations))
             }else{
                 return []
             }
         }
     }
+
     const orderToDates = (conversations: chatConversation[]) => {
         let chatConversationDays: chatConversationDay[] = []
 
