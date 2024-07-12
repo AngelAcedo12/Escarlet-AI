@@ -75,7 +75,7 @@ function useChat() {
                 let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
             
                 for await (const chunk of response) {
-                    console.log(chunk)
+                  
                     const [choices] = chunk.choices;
                     const content = choices.delta.content
                     if (content == "") {
