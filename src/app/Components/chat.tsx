@@ -6,6 +6,8 @@ import { useChat } from './hooks/useChat';
 import { messageFormater } from '@/utils/messageFormater';
 import { off } from 'process';
 import { useChatContext } from './context/chatContext';
+import Open_Navigation from './Icons/open_navigation';
+import ProgresComponent from './progresComponent';
 
 export default function Chat() {
 
@@ -52,32 +54,7 @@ export default function Chat() {
     // Si el sistema esta en proceso de inicializacion renderizara este componente
     if (chat.initialization != true) {
         return (
-            <div className='p-2'>
-                <div
-                    style={
-                        {
-                            width: `${chat.progress}`
-                        }
-                    } className={` bg-rose-500 h-1 animate-pulse rounded-xl`}>
-
-                </div>
-                <div className='h-full w-full text-white '>
-                    <ul className=' flex flex-col'>
-
-                        <p className=' text-sm '>
-                            Este proceso puede llevar un tiempo por favor espere.
-                            <br />
-                            {chat.statusText}
-                        </p>
-                    </ul>
-
-                </div>
-
-
-
-            </div>
-
-
+           <></>
         )
 
     } else {

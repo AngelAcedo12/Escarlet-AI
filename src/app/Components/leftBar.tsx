@@ -49,10 +49,10 @@ const ListConversation = () => {
     const {mapConversation} = conversationHook;
 
     return (
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 overflow-y-auto'>
             {
                 mapConversation.map((day, index) => {
-                    return <ul key={index}>
+                    return <ul key={index} >
                         <h1 className='text-neutral-400 text-base'>
                             {
                                 day.date === actualDate ? "Hoy" : day.date
@@ -94,9 +94,14 @@ export default function LeftBar() {
 
 
     return (
-        <ul className='md:flex md:flex-col lg:w-96 md:w-96 md:z-0 h-full w-full hidden gap-2 bg-neutral-900 p-2'>  
-            <div className='flex flex-row justify-between'> 
-               
+
+        <>
+            <ul  className={'flex flex-col z-50 h-full  gap-2 bg-neutral-900 p-2 transition-all ' + 
+            (conversationHook.openOrClose ? 'md:w-96 w-full ' : 'w-[0%] -translate-x-full hidden')
+        }
+        >  
+            <div className='flex flex-row justify-between items-center  '> 
+
                 <h1 className='text-rose-500 text-xl p-1 '>Escarlet AI</h1>
                 <button onClick={newConversation} className='rounded-md  p-1 hover:bg-zinc-800 transition-all'>
                     <Sum width={24} height={24} className='fill-rose-500'></Sum>
@@ -105,5 +110,9 @@ export default function LeftBar() {
             <hr></hr>
             <ListConversation></ListConversation>
         </ul>
+        
+        </>
+    
+
     )
 }

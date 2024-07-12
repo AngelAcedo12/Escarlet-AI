@@ -13,7 +13,4 @@ const nextConfig = {
         nextScriptWorkers: true,
       },
 };
-
-
-
 export default  {nextConfig};

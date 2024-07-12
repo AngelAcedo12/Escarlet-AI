@@ -49,9 +49,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             conversationHook.loadConverSetions()    
         }
         setIsCompatible(detectedCompatibility());
-        if (isCompatible && !register) {
+       console.log(chat.engine)
+        if (chat.engine == null || chat.engine == undefined) {
             setRegister(true);
             initWorket()
+            console.log("Se registro el worker")
         }
     }, [])
 
@@ -64,7 +66,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
 
         }
     }, [chat,conversationHook])
-0
+
     return <chatContext.Provider value={value}  > {children}</chatContext.Provider>
 }
 

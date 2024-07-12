@@ -17,7 +17,7 @@ import { URL } from "url";
 function useChat() {
     let selectedModel = "";
     const [engine, setEngine] = useState<webllm.MLCEngineInterface>();
-    const [progress, setProgress] = useState("0.00%");
+    const [progress, setProgress] = useState(0);
     const [statusText, setStatusText] = useState("");
     const [progressInit, setProgressInit] = useState(0);
     const [reply, setReply] = useState("");
@@ -27,7 +27,7 @@ function useChat() {
     const [initialization, setInitialization] = useState(false);
     const [mobile, setMobile] = useState("");
     const initEngineWorkerRef = useRef<Worker>();
-
+    const [modelInCache, setModelInCache] = useState(true);
     let countInit = 0
 
 
@@ -35,7 +35,14 @@ function useChat() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             selectedModel = determineModel();
-
+            window.caches.keys().then((keys) => {
+                console.log(keys)
+                if(keys.includes("webllm/config" || "webllm/model" || "webllm/wasm")){
+                   setModelInCache(true)
+                }else{
+                   setModelInCache(false)
+                }
+            })
         }
         if (generateMessage == false && conversation != undefined) {
             saveConversations();
@@ -89,7 +96,7 @@ function useChat() {
             }
 
             setGenerateMessage(true);
-            await setTimeout(() => {
+            setTimeout(() => {
             }, 1000);
             let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
 
@@ -118,31 +125,32 @@ function useChat() {
     }
 
     const initProgressCallback = (progress: InitProgressReport) => {
+        
         getProggest(progress.progress);
         setStatusText(progress.text);
 
+        if(progress.progress <0 && progress.progress > 1){
+            setModelInCache(false)
+        }
         if (progress.progress == 1) {
             setInitialization(true);
-
         }
     }
 
     const getProggest = (valueProgress: number) => {
-
+       
         let progress = valueProgress * 100;
-        setProgress(progress.toFixed(2) + '%');
+        setProgress(progress);
         setProgressInit(valueProgress);
     }
 
     async function initChat() {
 
         if (window.Worker) {
-
             if (initEngineWorkerRef.current && !initialization && countInit == 0) {
 
                 countInit++
-
-
+               
                 let engine = await webllm.CreateWebWorkerMLCEngine(
                     initEngineWorkerRef.current,
                     selectedModel,
@@ -239,7 +247,6 @@ function useChat() {
             title: title,
             id: id
         }
-
         setConversation(conversation)
 
     }
@@ -270,7 +277,11 @@ function useChat() {
         }
         return true
     }
-
+    const totalNewConversation = async () => {
+        setConversation(undefined);
+        setMessages([]);
+        engine?.interruptGenerate()
+    }
     const newConversation = async () => {
         setConversation(undefined);
         setMessages([]);
@@ -299,7 +310,11 @@ function useChat() {
         message,
         saveConversations,
         changeConversations,
-        newConversation
+        newConversation,
+        mobile,
+        modelInCache,
+        totalNewConversation
+
 
     }
 
