@@ -45,7 +45,7 @@ export default function InputChat(config: InputChatProps) {
             </div>)
     } else {
         return (
-            <div className=' p-2 relative bottom-0  flex bg-[#131111] items-center h-min md:justify-center  ' >
+            <div className=' p-2 relative bottom-0  flex bg-[#131111] items-center h-min sm:justify-center  ' >
                 <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row max-sm:w-full  flex gap-3 text-slate-100   sm:justify-start  justify-between bg-zinc-800 p-2 rounded-md animate-fade '>
                     <div className='items-start flex w-full '>
                         {
@@ -71,7 +71,7 @@ export default function InputChat(config: InputChatProps) {
                                 }
 
                                 } tabIndex={0} rows={1} onInput={(e) => { handleUserMessage(e) }}
-                                    className='md:w-96 w-full p-2 resize-none bg-transparent h-fit rounded-lg focus:outline-none disabled:animate-pulse text-wrap '
+                                    className='sm:w-96 w-full p-2 resize-none bg-transparent h-fit rounded-lg focus:outline-none disabled:animate-pulse text-wrap '
                                     placeholder='¿Como estamos?'>
 
                                 </textarea>

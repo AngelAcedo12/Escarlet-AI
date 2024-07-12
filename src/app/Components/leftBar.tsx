@@ -28,7 +28,7 @@ const ListConversation = () => {
                                 day.date === actualDate ? "Hoy" : day.date
                             }
                         </h1>
-                        <ul className='flex flex-col gap-2'>
+                        <ul className='flex flex-col gap-2 mr-2'>
                             {
                                 day.conversations.map((conversation: chatConversation, index) => {
                                     return <Conversation key={index} date={conversation.date} title={conversation.title} id={conversation.id}></Conversation>

@@ -68,28 +68,72 @@ function useChat() {
                 console.log("Init conversation")
                 initConversation(text)
             }
-            let request: webllm.ChatCompletionRequestStreaming
+            let request: webllm.ChatCompletionRequestStreaming =await generateRequest(userRequest);
+
+            setGenerateMessage(true);
+            try{
+                let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
+            
+                for await (const chunk of response) {
+                    console.log(chunk)
+                    const [choices] = chunk.choices;
+                    const content = choices.delta.content
+                    if (content == "") {
+                        continue;
+                    } else {
+    
+                        setReply((oldContent) => oldContent += content);
+                    }
+    
+                }
+                const messageBot = await engine.getMessage().then((message) => message);
+                addMessage({
+                    text: messageBot,
+                    user: "bot",
+                    name: "bot"
+                });
+    
+                setReply("");
+    
+            }catch(e){
+                console.log(e)
+                console.log(e instanceof Error)
+                if(e instanceof Error){
+                    addMessage({
+                        text: "Error en la solicitud",
+                        user: "bot",
+                        name: "bot"
+                    });
+                }
+                setReply("");
+                setGenerateMessage(false);
+               
+            }
+          
+        }
+
+       async function generateRequest(userRequest: webllm.ChatCompletionUserMessageParam) {
+            let request: webllm.ChatCompletionRequestStreaming;
 
             if (mobile == typesMobile.DESKTOP) {
-                let actualMessage = mapAllMessage();
+                // Se ha deshabilitado el contexto por ahora
+                // let actualMessage = mapAllMessage();
 
-                actualMessage?.push(userRequest)
+                // actualMessage?.push(userRequest);
+                
                 request = {
-                    messages: actualMessage || [],
+                    messages: [userRequest],
                     stream: true,
-                    max_tokens: 1000,
                     response_format: {
                         type: "text",
                     } as webllm.ResponseFormat,
                     temperature: 0.5,
-                }
+                };
             } else {
                 request = {
                     messages: [userRequest],
                     stream: true,
-                    max_tokens: 500,
                     response_format: {
-
                         type: "text",
                     } as webllm.ResponseFormat,
 
@@ -98,33 +142,7 @@ function useChat() {
 
 
             }
-
-            setGenerateMessage(true);
-             setTimeout(() => {
-            }, 1000);
-            let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
-
-            for await (const chunk of response) {
-
-                const [choices] = chunk.choices;
-                const content = choices.delta.content
-                if (content == " ") {
-                    continue;
-                } else {
-
-                    setReply((oldContent) => oldContent += content);
-                }
-
-            }
-            const messageBot = await engine.getMessage().then((message) => message);
-            addMessage({
-                text: messageBot,
-                user: "bot",
-                name: "bot"
-            });
-
-            setReply("");
-
+            return request;
         }
     }
 
@@ -166,7 +184,7 @@ function useChat() {
                         conv_config: {
                             system_message: "Te llamas Escarlet y eres un asistente virtual el cual habla en Español",
                         },
-
+                      
                     },
 
                 ).then((engine) => {
@@ -254,7 +272,8 @@ function useChat() {
         }
 
         setConversation(conversation)
-
+        setGenerateMessage(false);
+        setReply("");
     }
 
     const changeConversations = async (conversation: chatConversation) => {
