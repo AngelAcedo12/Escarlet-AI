@@ -6,7 +6,7 @@ import { useChat } from './hooks/useChat';
 import { messageFormater } from '@/utils/messageFormater';
 import { off } from 'process';
 import { useChatContext } from './context/chatContext';
-import Open_Navigation from './Icons/open_navigation';
+
 import ProgresComponent from './progresComponent';
 
 export default function Chat() {
