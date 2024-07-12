@@ -7,12 +7,9 @@ import DescargaIcon from "./Components/Icons/descarga_svg";
 import PdfIcon from "./Components/Icons/pdf_icon";
 import { useChat } from "./Components/hooks/useChat";
 import Navbar from "./Components/navbar";
-<<<<<<< Updated upstream
-=======
 import InputChat from "./Components/inputChat";
 import { ChatProvider } from "./Components/context/chatContext";
-import ProgresComponent from "./Components/progresComponent";
->>>>>>> Stashed changes
+
 
 export default function Home() {
 
@@ -47,14 +44,6 @@ export default function Home() {
       <Navbar></Navbar>
       <main className="flex h-full flex-col items-center  mt-16  p-4   ">
         <section className="flex flex-col  align-middle items-center gap-10 justify-center animate-fade-up h-[80dvh] ">
-
-<<<<<<< Updated upstream
-        <h1 className="md:text-4xl text-2xl font-bold gradiant_text bg-gradient-to-r from-sky-500/20 animate-fade-up text-rose-500 to-sky-500/75  bg-clip-text  ">Bienvenido a Escarlet IA</h1>
-        <ButtonLink href="/chat" text="Emperzar a chatear" className="border-rose-500 border rounded-full p-2  animate-fade-up hover:bg-white mt-10 hover:text-black transition-all " ></ButtonLink>
-       
-      </section>
-      <section className="h-[85dvh]  ">
-=======
           <h1 className="md:text-4xl text-2xl font-bold gradiant_text bg-gradient-to-r from-sky-500/20 animate-fade-up text-rose-500 to-sky-500/75  bg-clip-text  ">Bienvenido a Escarlet IA</h1>
           
             <InputChat redirect={true} route="./chat"></InputChat>
@@ -77,15 +66,9 @@ export default function Home() {
             <h1 className="md:text-3xl text-base ">Resume tus pdfs.</h1>
           </article>
 
-<<<<<<< Updated upstream
-      </section>
-      <div className="h-20"></div>
-    </main>
-=======
       </section> */}
         <div className="h-20"></div>
       </main>
->>>>>>> Stashed changes
     </>
 
   );

@@ -7,8 +7,6 @@ import { messageFormater } from '@/utils/messageFormater';
 import { off } from 'process';
 import { useChatContext } from './context/chatContext';
 
-import ProgresComponent from './progresComponent';
-
 export default function Chat() {
 
     const {chat,isCompatible} = useChatContext();

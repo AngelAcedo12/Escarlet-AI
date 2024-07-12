@@ -8,9 +8,6 @@ export default function ProgresComponent() {
 
 
 
-
-
-
     return (
         <div className='p-2'>
 

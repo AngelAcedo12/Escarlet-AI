@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useChatContext } from './context/chatContext';
 import { redirect } from 'next/dist/server/api-utils';
 import { useRouter } from 'next/navigation';
-import ProgresComponent from './progresComponent';
+import ProgresComponent from './ProgresComponent';
 
 
 

@@ -17,7 +17,7 @@ import { URL } from "url";
 function useChat() {
     let selectedModel = "";
     const [engine, setEngine] = useState<webllm.MLCEngineInterface>();
-    const [progress, setProgress] = useState("0.00%");
+    const [progress, setProgress] = useState(0);
     const [statusText, setStatusText] = useState("");
     const [progressInit, setProgressInit] = useState(0);
     const [reply, setReply] = useState("");
@@ -26,6 +26,7 @@ function useChat() {
     const [generateMessage, setGenerateMessage] = useState(false);
     const [initialization, setInitialization] = useState(false);
     const [mobile, setMobile] = useState("");
+    const [modelInCache, setModelInCache] = useState(true);
     const initEngineWorkerRef = useRef<Worker>();
 
     let countInit = 0
@@ -36,7 +37,17 @@ function useChat() {
         if (typeof window !== 'undefined') {
             selectedModel = determineModel();
 
+            window.caches.keys().then((keys) => {
+            
+                if (keys.includes("webllm/config" || "webllm/model" || "webllm/wasm")) {
+                    setModelInCache(true)
+                }else{
+                    setModelInCache(false)
+                }
+            
+            })    
         }
+
         if (generateMessage == false && conversation != undefined) {
             saveConversations();
         }
@@ -89,7 +100,7 @@ function useChat() {
             }
 
             setGenerateMessage(true);
-            await setTimeout(() => {
+             setTimeout(() => {
             }, 1000);
             let response: AsyncIterable<webllm.ChatCompletionChunk> = await engine.chat.completions.create(request)
 
@@ -120,7 +131,9 @@ function useChat() {
     const initProgressCallback = (progress: InitProgressReport) => {
         getProggest(progress.progress);
         setStatusText(progress.text);
-
+        if(progress.progress >0 && progress.progress < 1){
+            setModelInCache(false)
+        }
         if (progress.progress == 1) {
             setInitialization(true);
 
@@ -130,7 +143,7 @@ function useChat() {
     const getProggest = (valueProgress: number) => {
 
         let progress = valueProgress * 100;
-        setProgress(progress.toFixed(2) + '%');
+        setProgress(progress);
         setProgressInit(valueProgress);
     }
 
@@ -299,7 +312,9 @@ function useChat() {
         message,
         saveConversations,
         changeConversations,
-        newConversation
+        newConversation,
+        modelInCache,
+        mobile
 
     }
 
