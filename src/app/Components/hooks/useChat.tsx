@@ -265,8 +265,6 @@ function useChat() {
             }
             window.localStorage.setItem("conversations", JSON.stringify(conversations))
 
-
-
         }
         return true
     }
@@ -299,7 +297,8 @@ function useChat() {
         message,
         saveConversations,
         changeConversations,
-        newConversation
+        newConversation,
+        mobile
 
     }
 

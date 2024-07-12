@@ -8,6 +8,8 @@ const useConversation = () => {
     
    
     const [mapConversation, setMapConversation] = useState<chatConversationDay[]>([]);
+    const [openOrClose, setOpenOrClose] = useState<boolean>(true)
+    
     let storageEvent : StorageEvent 
 
 
@@ -44,10 +46,16 @@ const useConversation = () => {
         return chatConversationDays
         
     }
+    const changeStateOpenOrClose = () => {
+        
+        setOpenOrClose(!openOrClose)
+    }
 
     return {
         mapConversation,
-        loadConverSetions
+        loadConverSetions,
+        changeStateOpenOrClose,
+        openOrClose
     }
 
 }

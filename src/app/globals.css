@@ -41,3 +41,28 @@ body {
   background-clip: text; /* apply background clip */
   -webkit-text-fill-color: transparent;
 }
+
+.closeNav {
+
+  animation: closeNav 0.5s;
+  animation-fill-mode: forwards;
+}
+
+
+
+textarea::-webkit-scrollbar{
+  width: 0;
+}
+@keyframes closeNav {
+  0% {
+    transform: translateX(0);
+  }
+  90% {
+    transform: translateX(-100%);
+
+  }
+  100%{
+    display: hidden;
+  }
+  
+}

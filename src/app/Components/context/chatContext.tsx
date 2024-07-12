@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import useConversation from "../hooks/useConversation";
+import { typesMobile } from "@/constants/mobile";
 
 interface chatContextInteface {
     chat: ReturnType<typeof useChat>;
@@ -52,6 +53,9 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         if (isCompatible && !register) {
             setRegister(true);
             initWorket()
+        }
+        if(chat.mobile == typesMobile.MOBILE){
+            conversationHook.changeStateOpenOrClose()
         }
     }, [])
 
