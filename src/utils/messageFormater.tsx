@@ -24,8 +24,10 @@ const obteinsParts = (text: string): MessagePart[] => {
     if (part.match(/```[\s\S]*?```/)) {
       let textPart = part.replace(/```/g, '');
       let lenguaje = textPart.substring(0, textPart.indexOf('\n'));
+      console.log(lenguaje)
       textPart = textPart.replace(lenguaje, '');
       return {
+        
         leguaje: lenguaje,
         text: textPart,
         type: 'code'

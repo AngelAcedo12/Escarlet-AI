@@ -59,8 +59,8 @@ export default function Chat() {
         // Si el sistema esta inicializado renderizara el chat
         return (
 
-            <div className='flex flex-col relative h-full'>
-                <ul className='h-full flex flex-col max-h-max overflow-y-auto  pb-20 md:px-0 px-2'>
+            <div className='flex flex-col relative h-full overflow-y-auto'>
+                <ul className='h-full flex flex-col max-h-max overflow-y-auto  pb-2 md:px-0 px-2'>
                     {
                         chat.conversation == undefined   ?
                             <Messaje content={messageFormater('Hola, soy Escarlet tu asistente virtual ¿En que puedo ayudarte?')} user={"bot"} />
@@ -75,13 +75,7 @@ export default function Chat() {
                     }
 
                 </ul>
-                <div className='  w-full  px-2 py-2 bg-[#131111] flex absolute bottom-0 z-50'>
-                    <form onSubmit={(e) => handleUserMessageSubmit(e)} className='flex-row flex gap-3 text-slate-100  w-full  sm:justify-center  animate-fade '>
-                        <input value={userMessageInput} disabled={chat.generateMessage} onInput={(e) => handleUserMessage(e)} className='w-96 bg-transparent border border-slate-500 p-2 rounded-lg  disabled:animate-pulse'
-                            type='text' placeholder='¿Como estamos?' />
-                        <button className='text-rose-500' disabled={chat.generateMessage}>Enviar</button>
-                    </form>
-                </div>
+              
               
             </div>
 

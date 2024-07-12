@@ -6,6 +6,8 @@ import useConversation from './hooks/useConversation';
 import Sum from './Icons/sum';
 import { useChatContext } from './context/chatContext';
 import formaterDate from '@/utils/dateFormater';
+import SideNavigation from './Icons/side_navigations';
+import Link from 'next/link';
 
 const ListConversation = () => {
     const  {conversationHook} = useChatContext();
@@ -21,7 +23,7 @@ const ListConversation = () => {
             {
                 mapConversation.map((day, index) => {
                     return <ul key={index} >
-                        <h1 className='text-neutral-400 text-base'>
+                        <h1 className='text-neutral-400 text-base my-2'>
                             {
                                 day.date === actualDate ? "Hoy" : day.date
                             }
@@ -48,7 +50,13 @@ const Conversation = (props: {date:string, title: string, id: string} ) =>{
     const {chat,conversationHook} = useChatContext();
     
     const loadConversation = () => {
-    //
+        let list = JSON.parse(window.localStorage.getItem("conversations") || "[]")
+        let conversation = list.find((item: chatConversation) => item.id === props.id)
+        if(conversation != undefined){
+            chat.changeConversations(conversation)
+        }else{
+            window.alert("No se encontro la conversacion")
+        }
     }
 
     return (
@@ -74,12 +82,13 @@ export default function LeftBar() {
         console.log("New conversation")
         chat.newConversation()
     }
-
+    const closeNav = ()=>{
+        conversationHook.changeStateOpenOrClose()
+    
+    }
     useEffect(() => {
         if(window){
-            
-                conversationHook.loadConverSetions()
-           
+            conversationHook.loadConverSetions()
         }
     },[])
 
@@ -92,11 +101,17 @@ export default function LeftBar() {
         }
         >  
             <div className='flex flex-row justify-between items-center  '> 
-
-                <h1 className='text-rose-500 text-xl p-1 '>Escarlet AI</h1>
-                <button onClick={newConversation} className='rounded-md  p-1 hover:bg-zinc-800 transition-all'>
-                    <Sum width={24} height={24} className='fill-rose-500'></Sum>
-                </button>
+                <Link href='/'>
+                    <h1 className='text-rose-500 text-xl p-1 '>Escarlet AI</h1>
+                </Link>
+                <div className='flex flex-row gap-2'>
+                    <button onClick={newConversation} className='rounded-md  p-1 hover:bg-zinc-800 transition-all'>
+                        <Sum width={24} height={24} className='fill-rose-500'></Sum>
+                    </button>
+                    <button onClick={closeNav} className='rounded-md  p-1 hover:bg-zinc-800 transition-all'>
+                        <SideNavigation width={24} height={24} className='fill-rose-500'></SideNavigation>
+                    </button>
+                </div>
             </div>
             <hr></hr>
             <ListConversation></ListConversation>

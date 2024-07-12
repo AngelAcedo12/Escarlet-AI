@@ -7,6 +7,7 @@ import LeftBar from '../Components/leftBar';
 import { ChatProvider, useChatContext } from '../Components/context/chatContext';
 
 import InputChat from '../Components/inputChat';
+import Open_Navigation from '../Components/Icons/open_navigation';
 
 const NavChat = () => {
   const {conversationHook} = useChatContext();  
@@ -17,7 +18,7 @@ const NavChat = () => {
   return (
     <div className='p-2 mt-2 w-full '>
       <button disabled={conversationHook.openOrClose} onClick={() => handleOpenNavigation()} className={'p-1 transition-all rounded-lg ' + (conversationHook.openOrClose ? 'opacity-0' : 'opacity-1 hover:bg-zinc-800')  }> 
-          {/* <Open_Navigation width={24} height={24} className='fill-rose-500'/> */}
+          <Open_Navigation width={24} height={24} className='fill-rose-500'/>
       </button>
     </div>
   )
@@ -39,10 +40,11 @@ export default function Page() {
 
 
             <LeftBar/>
-       
-            <div className='w-full'>
 
+            <div className='w-full flex flex-col justify-between'>
+            <NavChat/>
             <Chat />
+            <InputChat redirect={false}/>
             </div>
           </article>
      

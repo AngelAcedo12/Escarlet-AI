@@ -49,7 +49,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             conversationHook.loadConverSetions()    
         }
         setIsCompatible(detectedCompatibility());
-       console.log(chat.engine)
+      
         if (chat.engine == null || chat.engine == undefined) {
             setRegister(true);
             initWorket()
