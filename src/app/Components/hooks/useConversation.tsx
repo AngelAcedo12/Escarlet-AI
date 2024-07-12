@@ -28,7 +28,9 @@ const useConversation = () => {
 
         conversations.forEach((conversation) => {
             let date = conversation.date
+            
             let chatConversationDay = chatConversationDays.find((item) => item.date === date)
+            console.log(chatConversationDay, "Before if")
             if(chatConversationDay == undefined){
                 chatConversationDay = {
                     date: date,
