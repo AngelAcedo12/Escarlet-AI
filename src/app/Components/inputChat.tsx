@@ -53,7 +53,7 @@ export default function InputChat(config: InputChatProps) {
                     <div className='items-start flex w-full '>
                         {
                             config.redirect == true ?
-                                <input type='text' disabled={chat.generateMessage}
+                                chat.generateMessage == true ? <Loader></Loader>: <input type='text' 
                                     onInput={(e) => { handleUserMessage(e) }} placeholder='Introduce un mensaje'
                                     className='md:w-96 w-full p-2 resize-none bg-transparent h-fit rounded-lg focus:outline-none disabled:animate-pulse text-wrap '
                                     onKeyDown={async (e) => {
