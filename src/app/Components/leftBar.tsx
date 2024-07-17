@@ -112,7 +112,7 @@ export default function LeftBar() {
 
         <>
             <ul className={'flex flex-col z-50 h-full  gap-2 bg-neutral-900 p-2 transition-all ' +
-                (conversationHook.openOrClose ? 'md:w-96 w-full ' : 'w-[0%] -translate-x-full hidden')
+                (conversationHook.openOrClose ? 'md:w-96 w-full md:relative fixed  ' : 'w-[0%] -translate-x-full hidden')
             }
             >
                 <div className='flex flex-row justify-between items-center  '>

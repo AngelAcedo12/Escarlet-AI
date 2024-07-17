@@ -9,6 +9,8 @@ import { count } from "console";
 import { randomInt } from "crypto";
 import { act, useEffect, useRef, useState } from "react";
 import { URL } from "url";
+import * as tts from '@diffusionstudio/vits-web';
+
 
 /**
  * Progress of the initialization of the engine
@@ -28,7 +30,7 @@ function useChat() {
     const [mobile, setMobile] = useState("");
     const [modelInCache, setModelInCache] = useState(true);
     const initEngineWorkerRef = useRef<Worker>();
-
+  
     let countInit = 0
 
 
@@ -65,7 +67,7 @@ function useChat() {
                 name: "User"
             }
             if (conversation == undefined) {
-                console.log("Init conversation")
+               
                 initConversation(text)
             }
             let request: webllm.ChatCompletionRequestStreaming =await generateRequest(userRequest);
@@ -94,6 +96,7 @@ function useChat() {
                 });
     
                 setReply("");
+                
     
             }catch(e){
                 console.log(e)
@@ -107,6 +110,7 @@ function useChat() {
                 }
                 setReply("");
                 setGenerateMessage(false);
+
                
             }
           
@@ -124,6 +128,7 @@ function useChat() {
                 request = {
                     messages: [userRequest],
                     stream: true,
+                    max_tokens: 500,
                     response_format: {
                         type: "text",
                     } as webllm.ResponseFormat,
@@ -133,6 +138,8 @@ function useChat() {
                 request = {
                     messages: [userRequest],
                     stream: true,
+                    max_tokens: 500,
+
                     response_format: {
                         type: "text",
                     } as webllm.ResponseFormat,
@@ -183,7 +190,10 @@ function useChat() {
                     {
                         conv_config: {
                             system_message: "Te llamas Escarlet y eres un asistente virtual el cual habla en Español",
+
                         },
+                        repetition_penalty: 1.2,
+                        temperature: 0.5,
                       
                     },
 
@@ -229,7 +239,7 @@ function useChat() {
     const determineModel = () => {
         let model = isMobile()
         setMobile(model)
-        return model == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "Phi-3-mini-4k-instruct-q4f16_1-MLC-1k"
+        return model == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k"
     }
 
     const mapAllMessage = () => {
@@ -308,6 +318,8 @@ function useChat() {
         engine?.interruptGenerate()
        
     }
+
+
     return {
         progress,
         progressInit,
@@ -332,7 +344,8 @@ function useChat() {
         changeConversations,
         newConversation,
         modelInCache,
-        mobile
+        mobile,
+   
 
     }
 

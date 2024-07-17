@@ -1,7 +1,7 @@
 {
     "name": "Escarlet IA",
     "short_name": "Escarlet IA",
-    "start_url": "/",
+    "start_url": "/chat",
     "display": "standalone",
     "theme_color": "#131111",
     "background_color": "#131111",

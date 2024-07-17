@@ -37,8 +37,6 @@ export default function RootLayout({
 }>) {
 
 
-
-
   return (
 
     <html lang="esp" className=" text-white scroll-smooth h-full" >

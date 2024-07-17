@@ -2,16 +2,19 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import useConversation from "../hooks/useConversation";
 import { typesMobile } from "@/constants/mobile";
+import useVoice from "../hooks/useVoice";
 
 interface chatContextInteface {
     chat: ReturnType<typeof useChat>;
     conversationHook: ReturnType<typeof useConversation>;
+    voice : ReturnType<typeof useVoice>;
     isCompatible: boolean;
 }
 
 const chatContext = React.createContext<chatContextInteface>({
     chat: {} as ReturnType<typeof useChat>,
     conversationHook: {} as ReturnType<typeof useConversation>,
+    voice: {} as ReturnType<typeof useVoice>,
     isCompatible: false,
 } as chatContextInteface);  
 
@@ -19,6 +22,7 @@ const chatContext = React.createContext<chatContextInteface>({
 export function ChatProvider({ children }: { children: React.ReactNode }) {
     const chat = useChat();
     const conversationHook = useConversation();
+    const voice = useVoice();
     const [isCompatible, setIsCompatible] = useState<boolean>(true);
     const [register, setRegister] = useState<boolean>(false);
 
@@ -48,6 +52,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
 
         if (window) {
             conversationHook.loadConverSetions()    
+          
         }
         setIsCompatible(detectedCompatibility());
       
@@ -59,6 +64,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         if(chat.mobile == typesMobile.MOBILE){
             conversationHook.changeStateOpenOrClose()
         }
+        
     }, [])
 
 
@@ -67,9 +73,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             chat,
             conversationHook,
             isCompatible,
+            voice
 
         }
-    }, [chat,conversationHook])
+    }, [chat,conversationHook,voice])
 
     return <chatContext.Provider value={value}  > {children}</chatContext.Provider>
 }

@@ -5,6 +5,7 @@ let handler : WebWorkerMLCEngineHandler
 
 
 self.onmessage = msg => {
+    console.log(msg)
     if(!handler){
         handler = new WebWorkerMLCEngineHandler()
     }

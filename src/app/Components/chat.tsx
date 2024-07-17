@@ -11,7 +11,7 @@ import Open_Navigation from './Icons/open_navigation';
 export default function Chat() {
 
     const { chat, isCompatible } = useChatContext();
-
+   
     // Si el sistema no es compatible rederizara este componente
     if (!isCompatible) {
         return (
@@ -46,15 +46,17 @@ export default function Chat() {
                         chat.conversation == undefined ?
                             <Messaje content={messageFormater('Hola, soy Escarlet tu asistente virtual ¿En que puedo ayudarte?')} user={"bot"} />
                             :
+                            
                             chat.message.map((message, index) => {
-                                return <Messaje key={index} content={messageFormater(message.text)} user={message.user} />
+                                let content = messageFormater(message.text);
+                                return <Messaje text={message.text} key={index} content={content} user={message.user} />
                             })
 
                     }
                     {
                           chat.generateMessage == true ? (
                             
-                                <Messaje content={messageFormater(chat.reply)} user={"bot"} reply={true} />
+                                <Messaje  content={messageFormater(chat.reply)} user={"bot"} reply={true} />
                             
                         ) : null
                     }

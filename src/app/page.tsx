@@ -52,10 +52,7 @@ export default function Home() {
           </h1>
           
             <InputChat redirect={true} route="./chat"></InputChat>
-          
           {/* <ButtonLink href="/chat" text="Emperzar a chatear" className="border-rose-500 border rounded-full p-2  animate-fade-up hover:bg-white mt-10 hover:text-black transition-all " ></ButtonLink> */}
-     
-      
         </section>
         
         <section className="flex flex-row justify-start items-start">
@@ -67,7 +64,6 @@ export default function Home() {
         </section>
    
       </main>
-
     </>
 
   );

@@ -12,7 +12,7 @@ interface MessagePart {
 
 const obteinsParts = (text: string): MessagePart[] => {
 
- 
+
   const regexSplit = /(```[\s\S]*?```)|(`[\s\S]*?`)|(\*\*[\s\S]*?\*\*)|(__[\s\S]*?__)|(\*[\s\S]*?\*)|(_[\s\S]*?_)|(~[\s\S]*?~)|(\[\[[\s\S]*?\]\])/g;
  
   return text.split(regexSplit).filter((part, index) => {
@@ -25,9 +25,9 @@ const obteinsParts = (text: string): MessagePart[] => {
     if (part.match(/```[\s\S]*?```/)) {
       let textPart = part.replace(/```/g, '');
       let lenguaje = textPart.substring(0, textPart.indexOf('\n'));
-      console.log(lenguaje)
+     
       if (lenguaje == '' || lenguaje == undefined) {
-        console.log(text)
+      
         lenguaje = 'plaintext';
       }
       textPart = textPart.replace(lenguaje, '');
@@ -72,7 +72,6 @@ const createHtml = (parts: MessagePart[]): ReactElement => {
     textWrap: 'wrap',
   }
   
-
   return (
     <div >
       
@@ -107,9 +106,10 @@ const createHtml = (parts: MessagePart[]): ReactElement => {
             case 'bold':
               return <strong key={index}>{part.text}</strong>
             default:
-              return <span style={
+              return <span className="mb-2" style={
                 {
                   whiteSpace: 'pre-line',
+
                 }
               } key={index}>{part.text}</span>
           }

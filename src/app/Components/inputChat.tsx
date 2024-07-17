@@ -54,22 +54,37 @@ export default function InputChat(config: InputChatProps) {
                         {
                             config.redirect == true ?
                                 chat.generateMessage == true ? <Loader></Loader>: <input type='text' 
-                                    onInput={(e) => { handleUserMessage(e) }} placeholder='Introduce un mensaje'
+                                    onInput={async(e) => { 
+                                        e.preventDefault();
+
+                                        if (chat.generateMessage == false) {
+                                
+                                            if (chat.conversation == undefined) {
+                                                chat.initConversation(userMessageInput)
+                                            }
+                                            chat.addMessage({ text: userMessageInput, user: "user", name: "User" })
+                                            setTimeout(() => {
+                                                chat.userRequest(userMessageInput)
+                                            }, 1000);
+                                            
+                                            setMessageInput('');
+                                            route.push(config.route || "./")
+                                        }
+
+
+                                    }} placeholder='Introduce un mensaje'
                                     className='md:w-96 w-full p-2 resize-none bg-transparent h-fit rounded-lg focus:outline-none disabled:animate-pulse text-wrap '
                                     onKeyDown={async (e) => {
                                         if (e.key == 'Enter') {
 
-
                                             handleUserMessageSubmit(e)
                                             route.push(config.route || "./")
-
                                         }
                                     }
 
                                     } />
                                 // Si no tiene redireccion renderizara un textarea
                                 :
-
                                     chat.generateMessage == true ? <Loader></Loader>:
                                     <textarea value={userMessageInput} dir='auto' disabled={chat.generateMessage} onKeyDown={(e) => {
                                         if (e.key == 'Enter') {

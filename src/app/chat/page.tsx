@@ -10,7 +10,7 @@ import Open_Navigation from '../Components/Icons/open_navigation';
 
 
 const NavChat = () => {
-  const {conversationHook} = useChatContext();  
+  const {conversationHook, voice} = useChatContext();  
   
   function handleOpenNavigation (){
     conversationHook.changeStateOpenOrClose()
@@ -20,8 +20,9 @@ const NavChat = () => {
 
       <button disabled={conversationHook.openOrClose} onClick={() => handleOpenNavigation()} className={'p-1 transition-all rounded-lg ' + (conversationHook.openOrClose ? 'opacity-0' : 'opacity-1 hover:bg-zinc-800')  }> 
           <Open_Navigation width={24} height={24} className='fill-rose-500'/>
+          
       </button>
-
+    
     </div>
   )
 
