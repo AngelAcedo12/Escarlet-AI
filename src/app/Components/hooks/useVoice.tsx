@@ -67,7 +67,7 @@ function useVoice() {
         tts,
         getAudio,
         audioWorker,
-       
+       addWorkers
 
 
     }

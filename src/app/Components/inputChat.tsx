@@ -53,7 +53,7 @@ export default function InputChat(config: InputChatProps) {
                     <div className='items-start flex w-full '>
                         {
                             config.redirect == true ?
-                                chat.generateMessage == true ? <Loader></Loader>: <input type='text' 
+                                chat.generateMessage == true ? <Loader type='big'></Loader>: <input type='text' 
                                     onInput={async(e) => { 
                                         e.preventDefault();
 
@@ -85,7 +85,7 @@ export default function InputChat(config: InputChatProps) {
                                     } />
                                 // Si no tiene redireccion renderizara un textarea
                                 :
-                                    chat.generateMessage == true ? <Loader></Loader>:
+                                    chat.generateMessage == true ? <Loader type='big'></Loader>:
                                     <textarea value={userMessageInput} dir='auto' disabled={chat.generateMessage} onKeyDown={(e) => {
                                         if (e.key == 'Enter') {
                                             handleUserMessageSubmit(e)

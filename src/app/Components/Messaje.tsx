@@ -30,10 +30,15 @@ export default function Messaje({ content, user, reply, text }: MessajeProps) {
       return;
     }
     setLoadingAudio(true);
+
+    if(messagePlay){
+      voice.audioWorker.current?.terminate()
+      voice.addWorkers()
+    }
     await voice.playMessage(text).then((res) => {
 
       voice.audioWorker.current!.onmessage = (msg) => {
-       
+        if(msg.data.type == 'predict'){
         let audio = new Audio();
         if(audio != undefined){
           audio.src = URL.createObjectURL(msg.data.waw);
@@ -43,8 +48,12 @@ export default function Messaje({ content, user, reply, text }: MessajeProps) {
         setMessagePlay(true);
         audio.onended = () => {
           setMessagePlay(false);
-        } 
-      }
+        } }
+        if(msg.data.type == 'cancel'){
+          setLoadingAudio(false);
+          setMessagePlay(false);
+        
+      }}
       
     });
   }
@@ -52,8 +61,14 @@ export default function Messaje({ content, user, reply, text }: MessajeProps) {
   const pauseMessage = async () => {
 
     setMessagePlay(false);
+    setLoadingAudio(false);
+    voice.audioWorker.current?.terminate()
   }
-
+  const cancelMessage = async () => {
+    setMessagePlay(false);
+    setLoadingAudio(false);
+    voice.audioWorker.current?.terminate()
+  }
   const getIconAudio = () => {
     if (messagePlay == false) {
       return <div className='hover:bg-zinc-600 p-1 rounded-md cursor-pointer  transition-all animate-fade' onClick={() => {
@@ -102,9 +117,15 @@ export default function Messaje({ content, user, reply, text }: MessajeProps) {
           </div>
           <div className='flex mt-2 w-full items-center'>
             {
-              text != undefined && user == 'bot' ? loadingAudio == false ? getIconAudio() : <Loader></Loader> : null
+              text != undefined && user == 'bot' ? loadingAudio == false ? getIconAudio() : 
+              <div onClick={() => { 
+                cancelMessage()
+              }}>
 
-
+                <Loader type='small'></Loader> 
+              </div>
+              
+              : null
             }
           </div>
         </div>
