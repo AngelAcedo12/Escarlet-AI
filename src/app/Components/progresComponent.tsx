@@ -16,7 +16,7 @@ export default function ProgresComponent() {
                 chat.modelInCache ? 
                 <div className='h-full w-full text-white '>
                 <div className=' flex flex-col'>
-                    <Loader ></Loader>
+                    <Loader type='big'></Loader>
                     {
                     /* <p className=' text-sm '>
                         Este proceso puede llevar un tiempo por favor espere.
@@ -28,15 +28,15 @@ export default function ProgresComponent() {
                 :  
                 <div className=' '>
                 
-                <CircularProgress
-                size='md'
-                showValueLabel={false}
-                color='danger'
-                className='fill-red-500'
-                value={chat.progress}
-                label={"Descargando modelo..."}
-                >
-                </CircularProgress>
+                    <CircularProgress
+                    size='md'
+                    showValueLabel={false}
+                    color='danger'
+                    className='fill-red-500'
+                    value={chat.progress}
+                    label={"Descargando modelo..."}
+                    >
+                    </CircularProgress>
                 </div> 
                 
             }      
