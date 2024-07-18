@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useMemo, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import useConversation from "../hooks/useConversation";

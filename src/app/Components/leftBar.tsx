@@ -47,12 +47,13 @@ const ListConversation = () => {
 const Conversation = (props: { date: string, title: string, id: string, new: boolean }) => {
 
 
-    const { chat, conversationHook } = useChatContext();
+    const { chat, conversationHook, voice } = useChatContext();
 
     const loadConversation = () => {
 
         let list = JSON.parse(window.localStorage.getItem("conversations") || "[]")
         let conversation = list.find((item: chatConversation) => item.id === props.id)
+        voice.cancelMessage()
         if (conversation != undefined) {
             chat.changeConversations(conversation)
         } else {

@@ -11,7 +11,7 @@ type MessajeProps = {
   user: string;
   reply?: boolean;
   text?: string
-
+  
 }
 
 export default function Messaje({ content, user, reply, text }: MessajeProps) {
@@ -29,46 +29,20 @@ export default function Messaje({ content, user, reply, text }: MessajeProps) {
     if (messagePlay) {
       return;
     }
-    setLoadingAudio(true);
-
-    if(messagePlay){
-      voice.audioWorker.current?.terminate()
-      voice.addWorkers()
+    
+     await voice.playMessage(text)
+     window.speechSynthesis.onvoiceschanged = (e) => {
+      setMessagePlay(false);
     }
-    await voice.playMessage(text).then((res) => {
-
-      voice.audioWorker.current!.onmessage = (msg) => {
-        if(msg.data.type == 'predict'){
-        let audio = new Audio();
-        if(audio != undefined){
-          audio.src = URL.createObjectURL(msg.data.waw);
-          audio.play();
-        }
-        setLoadingAudio(false);
-        setMessagePlay(true);
-        audio.onended = () => {
-          setMessagePlay(false);
-        } }
-        if(msg.data.type == 'cancel'){
-          setLoadingAudio(false);
-          setMessagePlay(false);
-        
-      }}
-      
-    });
+    setMessagePlay(true);
   }
 
-  const pauseMessage = async () => {
-
-    setMessagePlay(false);
-    setLoadingAudio(false);
-    voice.audioWorker.current?.terminate()
-  }
+ 
   const cancelMessage = async () => {
     setMessagePlay(false);
-    setLoadingAudio(false);
-    voice.audioWorker.current?.terminate()
+    voice.cancelMessage();
   }
+
   const getIconAudio = () => {
     if (messagePlay == false) {
       return <div className='hover:bg-zinc-600 p-1 rounded-md cursor-pointer  transition-all animate-fade' onClick={() => {
@@ -80,7 +54,7 @@ export default function Messaje({ content, user, reply, text }: MessajeProps) {
     } else if (messagePlay == true) {
 
       return <div className='hover:bg-zinc-600 p-1 rounded-md cursor-pointer  transition-all animate-fade' onClick={() => {
-        pauseMessage();
+        cancelMessage();
       }
       }>
         <PauseBtn width={24} height={24} className='fill-rose-500'></PauseBtn>
@@ -117,15 +91,8 @@ export default function Messaje({ content, user, reply, text }: MessajeProps) {
           </div>
           <div className='flex mt-2 w-full items-center'>
             {
-              text != undefined && user == 'bot' ? loadingAudio == false ? getIconAudio() : 
-              <div onClick={() => { 
-                cancelMessage()
-              }}>
-
-                <Loader type='small'></Loader> 
-              </div>
-              
-              : null
+              text != undefined && user == 'bot' ? getIconAudio() : 
+              null
             }
           </div>
         </div>
