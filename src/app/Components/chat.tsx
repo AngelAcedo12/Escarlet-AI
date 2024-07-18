@@ -55,7 +55,7 @@ export default function Chat() {
                     }
                     {
                           chat.generateMessage == true ? (
-                            
+                                
                                 <Messaje  content={messageFormater(chat.reply)} user={"bot"} reply={true} />
                             
                         ) : null

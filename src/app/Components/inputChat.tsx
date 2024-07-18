@@ -87,14 +87,15 @@ export default function InputChat(config: InputChatProps) {
                                 :
                                     chat.generateMessage == true ? <Loader type='big'></Loader>:
                                     <textarea value={userMessageInput} dir='auto' disabled={chat.generateMessage} onKeyDown={(e) => {
-                                        if (e.key == 'Enter') {
+
+                                        if (e.key == 'Enter' && e.shiftKey == false) {
                                             handleUserMessageSubmit(e)
                                         }
                                     }
 
                                     } tabIndex={0} rows={1} onInput={(e) => { handleUserMessage(e) }}
-                                        className='sm:w-96 w-full p-2 resize-none bg-transparent h-fit rounded-lg focus:outline-none disabled:animate-pulse text-wrap '
-                                        placeholder='¿Como estamos?'>
+                                        className='sm:w-96 w-full p-2 resize-none bg-transparent min-h-fit rounded-lg focus:outline-none disabled:animate-pulse text-wrap '
+                                        placeholder='Preguntale a Escarlet AI '>
 
                                     </textarea>
                         }

@@ -121,25 +121,23 @@ function useChat() {
 
             if (mobile == typesMobile.DESKTOP) {
                 // Se ha deshabilitado el contexto por ahora
-                // let actualMessage = mapAllMessage();
+                let actualMessage = mapAllMessage();
 
-                // actualMessage?.push(userRequest);
+                actualMessage?.push(userRequest);
                 
                 request = {
-                    messages: [userRequest],
+                    messages: actualMessage,
                     stream: true,
-                    max_tokens: 500,
                     response_format: {
                         type: "text",
                     } as webllm.ResponseFormat,
                     temperature: 0.5,
+                    
                 };
             } else {
                 request = {
                     messages: [userRequest],
                     stream: true,
-                    max_tokens: 500,
-
                     response_format: {
                         type: "text",
                     } as webllm.ResponseFormat,
@@ -189,7 +187,8 @@ function useChat() {
                     },
                     {
                         conv_config: {
-                            system_message: "Te llamas Escarlet y eres un asistente virtual el cual habla en Español",
+                            system_message: "Eres un asistente llamado Escarlet, tienes que responder en Español, y escribes siempre en markdown",
+                            system_template: "Eres un asistente llamado Escarlet, tienes que responder en Español, y escribes siempre en markdown", 
 
                         },
                         repetition_penalty: 1.2,
@@ -239,7 +238,7 @@ function useChat() {
     const determineModel = () => {
         let model = isMobile()
         setMobile(model)
-        return model == "MOBILE" ? "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC" : "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k"
+        return model == "MOBILE" ? "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC" : "gemma-2b-it-q4f16_1-MLC-1k"
     }
 
     const mapAllMessage = () => {
@@ -249,7 +248,7 @@ function useChat() {
                 if (index == 0) {
                     return {
                         role: "system",
-                        content: "Eres un asistente llamado Escarlet, tienes que responder en Español",
+                        content: "Eres un asistente llamado Escarlet, tienes que responder en Español, y escribes siempre en markdown",
                     }
                 }
                 return {
