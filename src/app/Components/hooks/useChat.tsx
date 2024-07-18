@@ -239,7 +239,7 @@ function useChat() {
     const determineModel = () => {
         let model = isMobile()
         setMobile(model)
-        return model == "MOBILE" ? "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k" : "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k"
+        return model == "MOBILE" ? "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC" : "stablelm-2-zephyr-1_6b-q4f16_1-MLC-1k"
     }
 
     const mapAllMessage = () => {
