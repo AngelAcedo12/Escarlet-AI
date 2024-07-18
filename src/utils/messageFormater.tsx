@@ -128,7 +128,6 @@ const messageFormater = (text: string) => {
 
   let parts = obteinsParts(text)
   let html: ReactElement = createHtml(parts)
-  console.log(text)
   return (
     <div className='whitespace-pre-line' dir='auto' >
       {html}
